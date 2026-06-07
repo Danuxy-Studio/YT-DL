@@ -3,11 +3,12 @@ const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
 const path = require('path');
+const rateLimit = require('express-rate-limit');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ============ CSP HEADERS ============
+// ============ SECURITY HEADERS ============
 app.use((req, res, next) => {
   if (process.env.NODE_ENV === 'production') {
     res.setHeader(
@@ -27,6 +28,8 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-api-key');
   res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   
   next();
 });
@@ -34,25 +37,25 @@ app.use((req, res, next) => {
 app.use(cors());
 app.use(express.json());
 
-// ============ ASSET STATIC FILES - YANG PENTING INI ============
-// Servis file statis dari folder public dengan benar
+// ============ STATIC FILES ============
 app.use(express.static('public', {
   setHeaders: (res, filePath) => {
-    // Set MIME type yang benar untuk file PNG
     if (filePath.endsWith('.png')) {
       res.setHeader('Content-Type', 'image/png');
       res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
     }
     if (filePath.endsWith('.css')) {
       res.setHeader('Content-Type', 'text/css');
+      res.setHeader('Cache-Control', 'public, max-age=86400');
     }
     if (filePath.endsWith('.js')) {
       res.setHeader('Content-Type', 'application/javascript');
+      res.setHeader('Cache-Control', 'public, max-age=86400');
     }
   }
 }));
 
-// Route khusus untuk asset (opsional, untuk memastikan)
+// Asset route
 app.get('/assets/:filename', (req, res) => {
   const filename = req.params.filename;
   const filePath = path.join(__dirname, 'public', 'assets', filename);
@@ -64,8 +67,7 @@ app.get('/assets/:filename', (req, res) => {
   });
 });
 
-// Rate limiting untuk API
-const rateLimit = require('express-rate-limit');
+// ============ RATE LIMITING ============
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
@@ -73,7 +75,7 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
-// API endpoints
+// ============ API ENDPOINTS ============
 app.post('/api/youtube/ytmp4', async (req, res) => {
   try {
     const { url } = req.body;
@@ -179,7 +181,7 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
-// Route untuk robots.txt dan sitemap.xml
+// ============ SEO ROUTES ============
 app.get('/robots.txt', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'robots.txt'));
 });
@@ -188,13 +190,14 @@ app.get('/sitemap.xml', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'sitemap.xml'));
 });
 
-// Handle semua route lainnya - kirim index.html
+// ============ CATCH ALL ============
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// ============ START SERVER ============
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`🚀 Danuxy Studio Downloader running on http://localhost:${PORT}`);
   console.log(`🔒 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`📁 Static files served from /public directory`);
+  console.log(`📹 Using quality: 1080p for video downloads`);
 });

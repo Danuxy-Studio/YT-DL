@@ -3,6 +3,5 @@ User-agent: *
 Allow: /
 Sitemap: https://ytdl.danuxy.com/sitemap.xml
 
-# Block admin pages (if any)
+# Block API routes
 Disallow: /api/
-Disallow: /private/
