@@ -1,0 +1,8 @@
+# robots.txt for Danuxy Studio
+User-agent: *
+Allow: /
+Sitemap: https://ytdl.danuxy.com/sitemap.xml
+
+# Block admin pages (if any)
+Disallow: /api/
+Disallow: /private/
