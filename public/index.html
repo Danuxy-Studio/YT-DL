@@ -12,31 +12,40 @@
   <meta name="googlebot" content="index, follow">
   <meta name="language" content="Indonesian">
   
+  <!-- Preload untuk performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="dns-prefetch" href="https://api.danuxy.com">
+  
   <!-- Canonical URL -->
   <link rel="canonical" href="https://danuxy-studio.vercel.app/">
   
   <!-- Open Graph -->
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://danuxy-studio.vercel.app/">
   <meta property="og:title" content="Danuxy Studio - YouTube Downloader">
   <meta property="og:description" content="Download video & audio YouTube gratis. Kualitas terbaik, cepat, dan aman.">
   <meta property="og:image" content="/assets/banner.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:url" content="https://danuxy-studio.vercel.app/">
+  <meta property="og:image:alt" content="Danuxy Studio YouTube Downloader">
   
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Danuxy Studio - YouTube Downloader">
   <meta name="twitter:description" content="Download YouTube videos & audio for free. Best quality, fast, and secure.">
   <meta name="twitter:image" content="/assets/banner.png">
+  <meta name="twitter:image:alt" content="Danuxy Studio YouTube Downloader">
   
-  <!-- Favicon only -->
+  <!-- Favicon - Hanya logo untuk tab -->
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/logo.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo.png">
   
-  <!-- Fonts -->
+  <!-- Fonts - Optimasi dengan display swap -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;500;600;700;800&display=swap" rel="stylesheet">
   
   <!-- Structured Data for SEO -->
   <script type="application/ld+json">
@@ -54,12 +63,25 @@
     },
     "author": {
       "@type": "Organization",
-      "name": "Danuxy Studio"
+      "name": "Danuxy Studio",
+      "url": "https://danuxy-studio.vercel.app"
     }
   }
   </script>
   
   <link rel="stylesheet" href="/css/style.css">
+  
+  <!-- Performance optimization -->
+  <style>
+    /* Critical CSS untuk first paint */
+    .hidden { display: none; }
+    body { 
+      background: #09090b;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
 </head>
 <body>
   <div class="app">
@@ -83,6 +105,7 @@
             class="url-input" 
             placeholder="Paste YouTube URL here..."
             autocomplete="off"
+            aria-label="YouTube URL"
           >
           <button id="clearBtn" class="clear-btn" aria-label="Clear">
             <i class="fas fa-times"></i>
@@ -146,7 +169,7 @@
         </div>
       </div>
 
-      <!-- Loading State - Icon akan berubah dinamis -->
+      <!-- Loading State -->
       <div id="loadingState" class="loading-state hidden">
         <div class="loading-card">
           <div class="loading-spinner">
@@ -248,16 +271,17 @@
       </button>
       
       <div class="footer-links">
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-twitter"></i></a>
-        <a href="#"><i class="fab fa-github"></i></a>
-        <a href="#"><i class="fab fa-discord"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
       </div>
       
       <p class="copyright" id="copyright">© 2025 Danuxy Studio</p>
     </footer>
   </div>
 
-  <script src="/js/main.js"></script>
+  <!-- Defer non-critical JS -->
+  <script src="/js/main.js" defer></script>
 </body>
 </html>
