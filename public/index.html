@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+  
+  <title>Danuxy Studio | YouTube Downloader - Download Video & Audio YouTube Gratis</title>
+  <meta name="description" content="Download video dan audio YouTube gratis dengan kualitas terbaik. Cepat, aman, dan mudah digunakan. Support 1080p, 720p, MP3.">
+  <meta name="keywords" content="youtube downloader, download video youtube, download mp3 youtube, downloader youtube, unduh video youtube, danuxy studio">
+  <meta name="author" content="Danuxy Studio">
+  <meta name="robots" content="index, follow">
+  <meta name="googlebot" content="index, follow">
+  <meta name="language" content="Indonesian">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://danuxy-studio.vercel.app/">
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Danuxy Studio - YouTube Downloader">
+  <meta property="og:description" content="Download video & audio YouTube gratis. Kualitas terbaik, cepat, dan aman.">
+  <meta property="og:image" content="/assets/banner.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://danuxy-studio.vercel.app/">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Danuxy Studio - YouTube Downloader">
+  <meta name="twitter:description" content="Download YouTube videos & audio for free. Best quality, fast, and secure.">
+  <meta name="twitter:image" content="/assets/banner.png">
+  
+  <!-- Favicon only -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo.png">
+  
+  <!-- Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Structured Data for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Danuxy Studio YouTube Downloader",
+    "description": "Free YouTube video and audio downloader with best quality support",
+    "applicationCategory": "Multimedia",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "IDR"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "Danuxy Studio"
+    }
+  }
+  </script>
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <h1 class="site-title">Danuxy<span>Studio</span></h1>
+        <p class="site-tagline" id="siteTagline">YouTube Downloader</p>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+      <!-- URL Input Card -->
+      <div class="card input-card">
+        <div class="input-group">
+          <i class="fas fa-link input-icon"></i>
+          <input 
+            type="text" 
+            id="youtubeUrl" 
+            class="url-input" 
+            placeholder="Paste YouTube URL here..."
+            autocomplete="off"
+          >
+          <button id="clearBtn" class="clear-btn" aria-label="Clear">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        
+        <div class="button-group">
+          <button id="btnMp4" class="btn btn-primary">
+            <i class="fas fa-download"></i>
+            <span id="btnVideoText">Download Video</span>
+            <i class="fas fa-video"></i>
+          </button>
+          <button id="btnMp3" class="btn btn-secondary">
+            <i class="fas fa-download"></i>
+            <span id="btnAudioText">Download Audio</span>
+            <i class="fas fa-headphones"></i>
+          </button>
+        </div>
+        
+        <div class="info-note" id="infoNote">
+          <i class="fas fa-crown"></i>
+          <span>1080p quality (auto fallback if unavailable)</span>
+        </div>
+      </div>
+
+      <!-- How to Use Section -->
+      <div class="card howto-card" id="howtoCard">
+        <div class="howto-header">
+          <i class="fas fa-question-circle"></i>
+          <h3 id="howtoTitle">Cara Menggunakan</h3>
+        </div>
+        <div class="howto-steps">
+          <div class="step-item">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <i class="fab fa-youtube"></i>
+              <span id="step1Text">Salin URL video YouTube dari browser</span>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <i class="fas fa-paste"></i>
+              <span id="step2Text">Tempel URL di kolom input di atas</span>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <i class="fas fa-video"></i>
+              <span id="step3Text">Klik tombol Download Video atau Download Audio</span>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <i class="fas fa-save"></i>
+              <span id="step4Text">Tunggu proses dan klik tombol download</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading State - Icon akan berubah dinamis -->
+      <div id="loadingState" class="loading-state hidden">
+        <div class="loading-card">
+          <div class="loading-spinner">
+            <div class="spinner-ring"></div>
+            <i class="fas fa-video loading-icon" id="loadingIcon"></i>
+          </div>
+          <h3 id="loadingTitle">Processing...</h3>
+          <p id="loadingSubtitle">Please wait</p>
+          <div class="progress-wrapper">
+            <div class="progress-track">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <span class="progress-percent" id="progressText">0%</span>
+          </div>
+          <div class="steps">
+            <div class="step" id="step1">
+              <i class="fas fa-link"></i>
+              <span id="stepLabel1">Verify</span>
+            </div>
+            <div class="step" id="step2">
+              <i class="fas fa-server"></i>
+              <span id="stepLabel2">Fetch</span>
+            </div>
+            <div class="step" id="step3">
+              <i class="fas fa-magic"></i>
+              <span id="stepLabel3">Process</span>
+            </div>
+            <div class="step" id="step4">
+              <i class="fas fa-check"></i>
+              <span id="stepLabel4">Ready</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Result State -->
+      <div id="resultState" class="result-state hidden"></div>
+    </main>
+
+    <!-- Donation Modal -->
+    <div id="donationModal" class="modal hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="donationTitle">Support Danuxy Studio</h2>
+          <button class="modal-close" id="closeModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p id="donationDesc">Your support keeps this service running and free for everyone!</p>
+          
+          <div class="donation-methods">
+            <div class="donation-method">
+              <i class="fab fa-paypal"></i>
+              <div>
+                <h4>PayPal</h4>
+                <p>danuxy.studio@example.com</p>
+              </div>
+            </div>
+            <div class="donation-method">
+              <i class="fas fa-coffee"></i>
+              <div>
+                <h4>Trakteer</h4>
+                <p>@danuxy_studio</p>
+              </div>
+            </div>
+            <div class="donation-method">
+              <i class="fas fa-mobile-alt"></i>
+              <div>
+                <h4>Saweria</h4>
+                <p>saweria.co/danuxy</p>
+              </div>
+            </div>
+            <div class="donation-method">
+              <i class="fas fa-qrcode"></i>
+              <div>
+                <h4>QRIS</h4>
+                <p>Scan QR Code</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="contact-info">
+            <h4 id="contactTitle">Contact Us</h4>
+            <div class="contact-links">
+              <a href="mailto:danuxy@example.com"><i class="fas fa-envelope"></i> danuxy@example.com</a>
+              <a href="#"><i class="fab fa-instagram"></i> @danuxy_studio</a>
+              <a href="#"><i class="fab fa-twitter"></i> @danuxy</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <button id="donationBtn" class="donation-btn">
+        <i class="fas fa-heart"></i>
+        <span id="donateText">Support Us</span>
+        <i class="fas fa-arrow-right"></i>
+      </button>
+      
+      <div class="footer-links">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-discord"></i></a>
+      </div>
+      
+      <p class="copyright" id="copyright">© 2025 Danuxy Studio</p>
+    </footer>
+  </div>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>
