@@ -1,19 +1,15 @@
-# robots.txt for Danuxy Studio - YouTube Downloader
+# robots.txt untuk Danuxy Studio
 User-agent: *
 Allow: /
-Sitemap: https://ytdl.danuxy.com/sitemap.xml
-
-# Atur jeda pemindaian untuk kestabilan server
-Crawl-delay: 1
-
-# Host Utama
-Host: https://ytdl.danuxy.com
-
-# Cegah bot mengindeks endpoint API internal agar hemat bandwidth server
-Disallow: /api/
-Disallow: /api/download
-
-# Izinkan memindai aset styling
 Allow: /css/
 Allow: /js/
 Allow: /assets/
+
+# Blokir query bot pada rute fungsional internal agar menghemat resource server
+Disallow: /api/
+Disallow: /api/download
+Disallow: /*?search=
+
+Crawl-delay: 1
+Host: https://ytdl.danuxy.com
+Sitemap: https://ytdl.danuxy.com/sitemap.xml

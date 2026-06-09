@@ -8,7 +8,8 @@
   <meta name="description" content="Danuxy Studio adalah situs YouTube Downloader gratis terbaik untuk download video kualitas 1080p full HD dan konversi audio MP3 cepat tanpa pendaftaran.">
   <meta name="keywords" content="Danuxy Studio, Danuxy, YouTube Downloader, Download Video YouTube, YouTube to MP3, YT Downloader 1080p">
   <meta name="author" content="Danuxy Studio">
-  <meta name="robots" content="index, follow">
+  
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   
   <link rel="canonical" href="https://ytdl.danuxy.com/">
   <link rel="icon" type="image/png" href="/assets/logo.png">
@@ -24,6 +25,49 @@
   <meta name="twitter:title" content="Danuxy Studio | YouTube Downloader 1080p Terbaik">
   <meta name="twitter:description" content="Download video YouTube 1080p dan MP3 gratis tanpa iklan mengganggu.">
   <meta name="twitter:image" content="https://ytdl.danuxy.com/assets/banner.png">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://ytdl.danuxy.com/#website",
+        "url": "https://ytdl.danuxy.com/",
+        "name": "Danuxy Studio",
+        "description": "YouTube Downloader Kualitas 1080p Terbaik & Cepat",
+        "potentialAction": [{
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://ytdl.danuxy.com/?search={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        }],
+        "inLanguage": "id-ID"
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://ytdl.danuxy.com/#application",
+        "name": "Danuxy Studio YouTube Downloader",
+        "url": "https://ytdl.danuxy.com/",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Windows, macOS, Android, iOS, Linux",
+        "browserRequirements": "Requires HTML5 features. JavaScript Enabled.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "IDR"
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.9",
+          "ratingCount": "1428"
+        }
+      }
+    ]
+  }
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -79,7 +123,7 @@
 
   <div id="result" class="hidden"></div>
 
-  <section class="card howto-card">
+  <section class="card howto-card" data-nosnippet>
     <div class="howto-header">
       <i class="fas fa-question-circle"></i>
       <h3>Cara Menggunakan</h3>
@@ -104,7 +148,7 @@
     </div>
   </section>
 
-  <section class="features-grid">
+  <section class="features-grid" data-nosnippet>
     <div class="feature"><i class="fas fa-video"></i><span>1080p HD</span></div>
     <div class="feature"><i class="fas fa-music"></i><span>MP3 Audio</span></div>
     <div class="feature"><i class="fas fa-bolt"></i><span>Super Cepat</span></div>
@@ -113,7 +157,7 @@
     <div class="feature"><i class="fas fa-user-check"></i><span>Tanpa Daftar</span></div>
   </section>
 
-  <footer class="footer">
+  <footer class="footer" data-nosnippet>
     <button class="donate-btn" id="donateBtn"><i class="fas fa-heart"></i> Dukung Danuxy Studio <i class="fas fa-arrow-right"></i></button>
     <div class="social-links">
       <a href="https://whatsapp.com/channel/0029Vb6RsCAEAKWDFTrHdu0L" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
