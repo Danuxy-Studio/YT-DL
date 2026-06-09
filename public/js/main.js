@@ -1,134 +1,187 @@
-// ============ AUTO LANGUAGE DETECTION ============
+// ============ MULTI LANGUAGE - BAHASA INDONESIA UTAMA ============
 let currentLang = 'id';
 
 const translations = {
   id: {
-    tagline: 'YouTube Downloader',
+    // Header
+    tagline: 'YouTube Downloader • Kualitas Terbaik 1080p',
+    quality: 'Kualitas 1080p • Turun Otomatis',
     btnVideo: 'Download Video',
     btnAudio: 'Download Audio',
-    howtoTitle: 'Cara Menggunakan',
-    step1: 'Salin URL video YouTube dari browser',
-    step2: 'Tempel URL di kolom input di atas',
-    step3: 'Klik tombol Download Video atau Download Audio',
-    step4: 'Tunggu proses dan klik tombol download',
-    loadingVideo: 'Memproses Video...',
-    loadingAudio: 'Memproses Audio...',
-    loadingSubtitle: 'Menghubungkan ke server',
-    stepVerify: 'Verifikasi',
-    stepFetch: 'Ambil Data',
-    stepProcess: 'Proses',
-    stepReady: 'Siap',
-    donateText: 'Dukung Kami',
-    copyright: '© 2026 Danuxy Studio'
+    placeholder: 'Tempel URL YouTube di sini...',
+    // Loading
+    loading: 'Memproses permintaan Anda...',
+    step1: 'Verifikasi',
+    step2: 'Ambil Data',
+    step3: 'Memproses',
+    step4: 'Siap',
+    // How to Use
+    howtoTitle: 'Cara Menggunakan Danuxy Studio',
+    howtoStep1: 'Salin URL video YouTube dari browser',
+    howtoStep2: 'Tempel URL di kolom input di atas',
+    howtoStep3: 'Klik tombol "Download Video" atau "Download Audio"',
+    howtoStep4: 'Tunggu proses dan klik tombol download untuk menyimpan',
+    // Download button text
+    downloadVideo: 'Download Video',
+    downloadAudio: 'Download Audio',
+    // Footer
+    donate: 'Dukung Danuxy Studio',
+    copyright: '© 2026 Danuxy Studio • Dibuat dengan',
+    // Modal
+    modalTitle: 'Dukung Danuxy Studio',
+    modalDesc: 'Dukungan Anda membuat layanan ini tetap berjalan dan gratis untuk semua orang!',
+    modalDonate: 'Donasi via Sociabuzz',
+    // Error
+    errorUrl: 'Masukkan URL YouTube terlebih dahulu',
+    errorInvalid: 'URL YouTube tidak valid',
+    errorProcess: 'Gagal memproses, silakan coba lagi',
+    // Result
+    secureNote: 'Download aman dari Danuxy Studio'
   },
   en: {
-    tagline: 'YouTube Downloader',
+    // Header
+    tagline: 'YouTube Downloader • Best Quality 1080p',
+    quality: '1080p Quality • Auto Fallback',
     btnVideo: 'Download Video',
     btnAudio: 'Download Audio',
-    howtoTitle: 'How to Use',
-    step1: 'Copy YouTube video URL from browser',
-    step2: 'Paste the URL in the input field above',
-    step3: 'Click "Download Video" or "Download Audio" button',
-    step4: 'Wait for processing and click download button',
-    loadingVideo: 'Processing Video...',
-    loadingAudio: 'Processing Audio...',
-    loadingSubtitle: 'Connecting to server',
-    stepVerify: 'Verify',
-    stepFetch: 'Fetch',
-    stepProcess: 'Process',
-    stepReady: 'Ready',
-    donateText: 'Support Us',
-    copyright: '© 2026 Danuxy Studio'
+    placeholder: 'Paste YouTube URL here...',
+    // Loading
+    loading: 'Processing your request...',
+    step1: 'Verify',
+    step2: 'Fetch',
+    step3: 'Process',
+    step4: 'Ready',
+    // How to Use
+    howtoTitle: 'How to Use Danuxy Studio',
+    howtoStep1: 'Copy YouTube video URL from browser',
+    howtoStep2: 'Paste the URL in the input field above',
+    howtoStep3: 'Click "Download Video" or "Download Audio" button',
+    howtoStep4: 'Wait for processing and click download button to save',
+    // Download button text
+    downloadVideo: 'Download Video',
+    downloadAudio: 'Download Audio',
+    // Footer
+    donate: 'Support Danuxy Studio',
+    copyright: '© 2026 Danuxy Studio • Made with',
+    // Modal
+    modalTitle: 'Support Danuxy Studio',
+    modalDesc: 'Your support keeps this service running and free for everyone!',
+    modalDonate: 'Donate via Sociabuzz',
+    // Error
+    errorUrl: 'Please enter a YouTube URL',
+    errorInvalid: 'Invalid YouTube URL',
+    errorProcess: 'Failed to process, please try again',
+    // Result
+    secureNote: 'Secure download from Danuxy Studio'
   }
 };
 
+// Detect language (default Indonesia, English only for non-Indonesian users)
 function detectLanguage() {
   const userLang = navigator.language || navigator.userLanguage;
-  return userLang.startsWith('id') ? 'id' : 'en';
+  // Default ke Indonesia, English hanya jika user bukan dari Indonesia
+  if (userLang.startsWith('id')) return 'id';
+  return 'en';
 }
 
-function applyTranslations(lang) {
-  const t = translations[lang];
+// Apply all translations
+function applyLanguage() {
+  const t = translations[currentLang];
   if (!t) return;
   
-  const elements = {
-    siteTagline: t.tagline,
-    btnVideoText: t.btnVideo,
-    btnAudioText: t.btnAudio,
-    stepLabel1: t.stepVerify,
-    stepLabel2: t.stepFetch,
-    stepLabel3: t.stepProcess,
-    stepLabel4: t.stepReady,
-    donateText: t.donateText,
-    copyright: t.copyright
-  };
+  // Header
+  const tagline = document.getElementById('taglineText');
+  if (tagline) tagline.textContent = t.tagline;
   
-  for (const [id, text] of Object.entries(elements)) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = text;
-  }
-}
-
-// ============ LOAD HOW-TO CARD VIA JS (HIDE FROM GOOGLE BOT) ============
-function loadHowToCard() {
-  const container = document.getElementById('howtoContainer');
-  if (!container) return;
+  const qualityText = document.getElementById('qualityText');
+  if (qualityText) qualityText.textContent = t.quality;
   
-  const lang = currentLang;
-  const t = translations[lang];
+  const btnVideo = document.getElementById('btnVideoText');
+  if (btnVideo) btnVideo.textContent = t.btnVideo;
   
-  container.innerHTML = `
-    <div class="card howto-card">
-      <div class="howto-header">
-        <div class="howto-icon"><i class="fas fa-question-circle"></i></div>
-        <h3>${t.howtoTitle}</h3>
-      </div>
-      <div class="howto-steps">
-        <div class="step-item"><div class="step-number">1</div><div class="step-content"><i class="fab fa-youtube"></i><span>${t.step1}</span></div></div>
-        <div class="step-item"><div class="step-number">2</div><div class="step-content"><i class="fas fa-paste"></i><span>${t.step2}</span></div></div>
-        <div class="step-item"><div class="step-number">3</div><div class="step-content"><i class="fas fa-video"></i><span>${t.step3}</span></div></div>
-        <div class="step-item"><div class="step-number">4</div><div class="step-content"><i class="fas fa-save"></i><span>${t.step4}</span></div></div>
-      </div>
-    </div>
-  `;
+  const btnAudio = document.getElementById('btnAudioText');
+  if (btnAudio) btnAudio.textContent = t.btnAudio;
+  
+  const urlInput = document.getElementById('youtubeUrl');
+  if (urlInput) urlInput.placeholder = t.placeholder;
+  
+  // Loading
+  const loadingMsg = document.getElementById('loadingMsg');
+  if (loadingMsg) loadingMsg.textContent = t.loading;
+  
+  const step1Span = document.querySelector('#step1 span');
+  if (step1Span) step1Span.textContent = t.step1;
+  
+  const step2Span = document.querySelector('#step2 span');
+  if (step2Span) step2Span.textContent = t.step2;
+  
+  const step3Span = document.querySelector('#step3 span');
+  if (step3Span) step3Span.textContent = t.step3;
+  
+  const step4Span = document.querySelector('#step4 span');
+  if (step4Span) step4Span.textContent = t.step4;
+  
+  // How to Use
+  const howtoTitle = document.getElementById('howtoTitle');
+  if (howtoTitle) howtoTitle.textContent = t.howtoTitle;
+  
+  const step1Text = document.getElementById('step1Text');
+  if (step1Text) step1Text.textContent = t.howtoStep1;
+  
+  const step2Text = document.getElementById('step2Text');
+  if (step2Text) step2Text.textContent = t.howtoStep2;
+  
+  const step3Text = document.getElementById('step3Text');
+  if (step3Text) step3Text.textContent = t.howtoStep3;
+  
+  const step4Text = document.getElementById('step4Text');
+  if (step4Text) step4Text.textContent = t.howtoStep4;
+  
+  // Footer
+  const donateText = document.getElementById('donateText');
+  if (donateText) donateText.textContent = t.donate;
+  
+  const copyright = document.getElementById('copyrightText');
+  if (copyright) copyright.innerHTML = `${t.copyright} <i class="fas fa-heart"></i>`;
+  
+  // Modal
+  const modalTitle = document.querySelector('#donationModal .modal-header h3 span');
+  if (modalTitle) modalTitle.textContent = t.modalTitle;
+  
+  const modalDesc = document.getElementById('modalDesc');
+  if (modalDesc) modalDesc.textContent = t.modalDesc;
+  
+  const modalDonateBtn = document.getElementById('modalDonateBtn');
+  if (modalDonateBtn) modalDonateBtn.innerHTML = `<i class="fas fa-heart"></i> ${t.modalDonate} <i class="fas fa-external-link-alt"></i>`;
 }
 
 // ============ MAIN APPLICATION ============
 const API_BASE = '/api/youtube';
-let currentProgressInterval = null;
-let currentStep = 0;
+let progressInterval = null;
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Set language (Indonesia default)
   currentLang = detectLanguage();
-  applyTranslations(currentLang);
-  loadHowToCard(); // Load how-to card after language detection
+  applyLanguage();
   
   // DOM Elements
   const urlInput = document.getElementById('youtubeUrl');
   const clearBtn = document.getElementById('clearBtn');
-  const btnMp4 = document.getElementById('btnMp4');
-  const btnMp3 = document.getElementById('btnMp3');
-  const loadingState = document.getElementById('loadingState');
-  const resultState = document.getElementById('resultState');
+  const btnVideo = document.getElementById('btnMp4');
+  const btnAudio = document.getElementById('btnMp3');
+  const loadingDiv = document.getElementById('loading');
+  const resultDiv = document.getElementById('result');
   const progressFill = document.getElementById('progressFill');
-  const progressText = document.getElementById('progressText');
-  const loadingTitle = document.getElementById('loadingTitle');
-  const loadingSubtitle = document.getElementById('loadingSubtitle');
-  const loadingIcon = document.getElementById('loadingIcon');
-  const donationBtn = document.getElementById('donationBtn');
-  const donationModal = document.getElementById('donationModal');
+  const progressPercent = document.getElementById('progressPercent');
+  const donateBtn = document.getElementById('donateBtn');
+  const modal = document.getElementById('donationModal');
   const closeModal = document.getElementById('closeModal');
   
-  if (!urlInput || !btnMp4 || !btnMp3) return;
-  
-  // Clear button
-  const updateClearBtn = () => {
-    if (clearBtn) clearBtn.style.display = urlInput.value ? 'flex' : 'none';
-  };
-  urlInput.addEventListener('input', updateClearBtn);
-  updateClearBtn();
-  
+  // Clear input
   if (clearBtn) {
+    urlInput.addEventListener('input', () => {
+      clearBtn.style.display = urlInput.value ? 'flex' : 'none';
+    });
     clearBtn.addEventListener('click', () => {
       urlInput.value = '';
       clearBtn.style.display = 'none';
@@ -136,28 +189,28 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   
-  // Donation Modal
-  if (donationBtn && donationModal && closeModal) {
-    donationBtn.addEventListener('click', () => {
-      donationModal.classList.remove('hidden');
+  // Donation modal
+  if (donateBtn && modal && closeModal) {
+    donateBtn.addEventListener('click', () => {
+      modal.classList.remove('hidden');
       document.body.style.overflow = 'hidden';
     });
     closeModal.addEventListener('click', () => {
-      donationModal.classList.add('hidden');
+      modal.classList.add('hidden');
       document.body.style.overflow = '';
     });
-    donationModal.addEventListener('click', (e) => {
-      if (e.target === donationModal) {
-        donationModal.classList.add('hidden');
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.add('hidden');
         document.body.style.overflow = '';
       }
     });
   }
   
-  // Progress functions
-  function startProgressSimulation() {
+  // Progress simulation
+  function startProgress() {
     let progress = 0;
-    currentStep = 0;
+    if (progressInterval) clearInterval(progressInterval);
     
     for (let i = 1; i <= 4; i++) {
       const step = document.getElementById(`step${i}`);
@@ -167,45 +220,35 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
     
-    if (currentProgressInterval) clearInterval(currentProgressInterval);
-    
-    currentProgressInterval = setInterval(() => {
+    progressInterval = setInterval(() => {
       if (progress < 95) {
-        progress += Math.random() * 10;
+        progress += Math.random() * 12;
         if (progress > 95) progress = 95;
         updateProgress(progress);
       }
       
-      const newStep = Math.min(Math.floor(progress / 25) + 1, 4);
-      if (newStep > currentStep) {
-        for (let i = 1; i <= newStep; i++) {
-          const step = document.getElementById(`step${i}`);
-          if (step) {
-            step.classList.remove('active');
-            step.classList.add('completed');
-          }
+      const stepIdx = Math.min(Math.floor(progress / 25) + 1, 4);
+      for (let i = 1; i <= stepIdx; i++) {
+        const step = document.getElementById(`step${i}`);
+        if (step) {
+          step.classList.remove('active');
+          step.classList.add('completed');
         }
-        if (newStep < 4) {
-          const nextStep = document.getElementById(`step${newStep + 1}`);
-          if (nextStep) nextStep.classList.add('active');
-        }
-        currentStep = newStep;
-        
-        const stepTexts = currentLang === 'id' 
-          ? ['Memverifikasi URL...', 'Mengambil metadata...', 'Memproses...', 'Menyiapkan...']
-          : ['Verifying URL...', 'Fetching metadata...', 'Processing...', 'Preparing...'];
-        if (loadingSubtitle) loadingSubtitle.textContent = stepTexts[Math.min(newStep - 1, stepTexts.length - 1)];
+      }
+      if (stepIdx < 4) {
+        const nextStep = document.getElementById(`step${stepIdx + 1}`);
+        if (nextStep) nextStep.classList.add('active');
       }
     }, 700);
   }
   
-  function updateProgress(percent) {
-    if (progressFill) progressFill.style.width = `${percent}%`;
-    if (progressText) progressText.textContent = `${Math.floor(percent)}%`;
+  function updateProgress(p) {
+    if (progressFill) progressFill.style.width = `${p}%`;
+    if (progressPercent) progressPercent.textContent = `${Math.floor(p)}%`;
   }
   
   function completeProgress() {
-    if (currentProgressInterval) clearInterval(currentProgressInterval);
+    if (progressInterval) clearInterval(progressInterval);
     updateProgress(100);
     for (let i = 1; i <= 4; i++) {
       const step = document.getElementById(`step${i}`);
@@ -214,35 +257,17 @@ document.addEventListener('DOMContentLoaded', () => {
         step.classList.add('completed');
       }
     }
-    if (loadingTitle) loadingTitle.textContent = currentLang === 'id' ? 'Selesai!' : 'Complete!';
-    if (loadingSubtitle) loadingSubtitle.textContent = currentLang === 'id' ? 'Menyiapkan download...' : 'Preparing your download...';
   }
   
-  function resetProgress() {
-    if (currentProgressInterval) clearInterval(currentProgressInterval);
-    updateProgress(0);
-  }
-  
-  function showLoading(show, type = '') {
+  function showLoading(show) {
     if (show) {
-      if (loadingIcon) loadingIcon.className = type === 'mp4' ? 'fas fa-video loading-icon' : 'fas fa-music loading-icon';
-      if (loadingState) loadingState.classList.remove('hidden');
-      if (resultState) resultState.classList.add('hidden');
-      if (loadingTitle) loadingTitle.textContent = type === 'mp4' 
-        ? (currentLang === 'id' ? 'Memproses Video...' : 'Processing Video...')
-        : (currentLang === 'id' ? 'Memproses Audio...' : 'Processing Audio...');
-      if (loadingSubtitle) loadingSubtitle.textContent = currentLang === 'id' ? 'Menghubungkan ke server' : 'Connecting to server';
-      startProgressSimulation();
+      loadingDiv.classList.remove('hidden');
+      resultDiv.classList.add('hidden');
+      startProgress();
+      document.body.style.overflow = 'hidden';
     } else {
-      if (loadingState) loadingState.classList.add('hidden');
-    }
-  }
-  
-  function displayError(message) {
-    resetProgress();
-    if (resultState) {
-      resultState.classList.remove('hidden');
-      resultState.innerHTML = `<div class="error-message"><i class="fas fa-exclamation-triangle"></i><div><strong>Error</strong><br><span>${escapeHtml(message)}</span></div></div>`;
+      loadingDiv.classList.add('hidden');
+      document.body.style.overflow = '';
     }
   }
   
@@ -256,96 +281,127 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   
-  function formatViews(views) {
-    if (!views) return 'Unknown';
-    if (typeof views === 'number') {
-      if (views >= 1e6) return (views / 1e6).toFixed(1) + 'M';
-      if (views >= 1e3) return (views / 1e3).toFixed(1) + 'K';
-      return views.toString();
+  function formatViews(v) {
+    if (!v) return null;
+    if (typeof v === 'number') {
+      if (v >= 1000000) return (v / 1000000).toFixed(1) + 'Jt';
+      if (v >= 1000) return (v / 1000).toFixed(1) + 'Rb';
+      return v.toString();
     }
-    return views;
+    return v;
   }
   
-  async function callAPI(endpoint, payload) {
-    try {
-      const response = await fetch(`${API_BASE}/${endpoint}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      const data = await response.json();
-      if (!response.ok || !data.success) throw new Error(data.message || 'Request failed');
-      return data.data;
-    } catch (error) {
-      throw new Error(error.message || 'Network error');
+  function getErrorMessage(type) {
+    const t = translations[currentLang];
+    switch(type) {
+      case 'url': return t.errorUrl;
+      case 'invalid': return t.errorInvalid;
+      default: return t.errorProcess;
     }
   }
   
   function getUrl() {
-    let rawUrl = urlInput.value.trim();
-    if (!rawUrl) throw new Error(currentLang === 'id' ? 'Masukkan URL YouTube' : 'Please enter a YouTube URL');
-    if (!rawUrl.includes('youtube.com') && !rawUrl.includes('youtu.be')) {
-      throw new Error(currentLang === 'id' ? 'URL YouTube tidak valid' : 'Invalid YouTube URL');
+    let raw = urlInput.value.trim();
+    if (!raw) throw new Error(getErrorMessage('url'));
+    if (!raw.includes('youtube.com') && !raw.includes('youtu.be')) {
+      throw new Error(getErrorMessage('invalid'));
     }
-    return rawUrl;
+    return raw;
+  }
+  
+  async function callAPI(endpoint, payload) {
+    const res = await fetch(`${API_BASE}/${endpoint}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) throw new Error(data.message || getErrorMessage());
+    return data.data;
   }
   
   function renderResult(data, type) {
+    const t = translations[currentLang];
     const isMp4 = type === 'mp4';
-    const videoInfo = data.video_info || {};
-    const downloadInfo = data.download || {};
+    const vi = data.video_info || {};
+    const dl = data.download || {};
     
-    const title = videoInfo.title || (isMp4 ? 'YouTube Video' : 'YouTube Audio');
-    const thumbnail = videoInfo.thumbnail || 'https://i.ytimg.com/vi/default/hqdefault.jpg';
-    const channel = videoInfo.channel || 'Unknown';
-    const views = formatViews(videoInfo.views_raw || videoInfo.views);
-    const duration = videoInfo.duration || '';
-    const uploadedAt = videoInfo.uploaded_at || '';
-    const quality = downloadInfo.quality || (isMp4 ? '1080p' : 'Audio');
-    const size = downloadInfo.size_mb ? (downloadInfo.size_mb.includes('MB') ? downloadInfo.size_mb : `${downloadInfo.size_mb} MB`) : 'Unknown';
-    const expires = downloadInfo.expires_in || 'Permanent';
-    const downloadUrl = downloadInfo.download_url;
-    const filename = downloadInfo.filename || `download.${isMp4 ? 'mp4' : 'mp3'}`;
-    const downloadText = currentLang === 'id' ? `Download ${isMp4 ? 'Video' : 'Audio'}` : `Download ${isMp4 ? 'Video' : 'Audio'}`;
+    const title = vi.title || (isMp4 ? 'YouTube Video' : 'YouTube Audio');
+    const thumb = vi.thumbnail || 'https://i.ytimg.com/vi/default/hqdefault.jpg';
+    const channel = vi.channel || 'Unknown';
+    const views = formatViews(vi.views_raw || vi.views);
+    const duration = vi.duration || '';
+    const quality = dl.quality || (isMp4 ? '1080p' : 'Audio');
+    const size = dl.size_mb ? (dl.size_mb.includes('MB') ? dl.size_mb : `${dl.size_mb} MB`) : 'Unknown';
+    const dlUrl = dl.download_url;
+    const filename = dl.filename || `download.${isMp4 ? 'mp4' : 'mp3'}`;
+    const downloadText = isMp4 ? t.downloadVideo : t.downloadAudio;
     
-    const resultHtml = `<div class="result-card"><div class="result-content"><div class="video-info"><div class="thumbnail"><img src="${thumbnail}" alt="Thumbnail" onerror="this.src='https://i.ytimg.com/vi/default/hqdefault.jpg'">${duration ? `<span class="duration">${duration}</span>` : ''}</div><div class="details"><div class="title">${escapeHtml(title)}</div><div class="meta"><span class="meta-item"><i class="fas fa-user"></i> ${escapeHtml(channel)}</span>${views !== 'Unknown' ? `<span class="meta-item"><i class="fas fa-eye"></i> ${views}</span>` : ''}${uploadedAt ? `<span class="meta-item"><i class="fas fa-calendar"></i> ${escapeHtml(uploadedAt)}</span>` : ''}</div><div class="meta"><span class="meta-item"><i class="fas ${isMp4 ? 'fa-video' : 'fa-music'}"></i> ${isMp4 ? 'Video' : 'Audio'}</span><span class="meta-item"><i class="fas fa-database"></i> ${escapeHtml(size)}</span><span class="quality-badge-result"><i class="fas fa-tachometer-alt"></i> ${escapeHtml(quality)}</span></div></div></div><div class="download-info"><div class="filename"><i class="fas fa-file"></i><span>${escapeHtml(filename)}</span></div></div><a href="${downloadUrl}" class="download-btn" download target="_blank"><i class="fas fa-download"></i> ${downloadText}</a>${expires !== 'Permanent' ? `<div class="expiry-note"><i class="fas fa-clock"></i> ${currentLang === 'id' ? `Link kadaluarsa dalam ${expires}` : `Link expires in ${expires}`}</div>` : ''}<div class="secure-note"><i class="fas fa-shield-alt"></i> ${currentLang === 'id' ? 'Download aman dari Danuxy Studio' : 'Secure download from Danuxy Studio'}</div></div></div>`;
+    const html = `
+      <div class="result-card">
+        <div class="result-preview">
+          <div class="result-thumb">
+            <img src="${thumb}" alt="Thumbnail" onerror="this.src='https://i.ytimg.com/vi/default/hqdefault.jpg'">
+            ${duration ? `<span class="result-duration">${duration}</span>` : ''}
+          </div>
+          <div class="result-info">
+            <div class="result-title">${escapeHtml(title)}</div>
+            <div class="result-meta">
+              <span class="meta-chip"><i class="fas fa-user"></i> ${escapeHtml(channel)}</span>
+              ${views ? `<span class="meta-chip"><i class="fas fa-eye"></i> ${views}</span>` : ''}
+              <span class="quality-chip"><i class="fas fa-tachometer-alt"></i> ${escapeHtml(quality)}</span>
+            </div>
+          </div>
+        </div>
+        <div class="result-file">
+          <i class="fas fa-file"></i> ${escapeHtml(filename)} <span style="margin-left: auto;">${escapeHtml(size)}</span>
+        </div>
+        <a href="${dlUrl}" class="download-link" download target="_blank"><i class="fas fa-download"></i> ${downloadText}</a>
+        <div class="secure-note">
+          <i class="fas fa-shield-alt"></i> ${t.secureNote}
+        </div>
+      </div>
+    `;
     
-    if (resultState) {
-      resultState.innerHTML = resultHtml;
-      resultState.classList.remove('hidden');
-      resultState.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
+    resultDiv.innerHTML = html;
+    resultDiv.classList.remove('hidden');
+    resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
   
-  async function handleMp4() {
+  function displayError(msg) {
+    resultDiv.classList.remove('hidden');
+    resultDiv.innerHTML = `<div class="error-msg"><i class="fas fa-exclamation-triangle"></i><div><strong>Error</strong><br><span>${escapeHtml(msg)}</span></div></div>`;
+  }
+  
+  async function handleVideo() {
     try {
       const url = getUrl();
-      showLoading(true, 'mp4');
-      const result = await callAPI('ytmp4', { url });
-      if (!result || !result.download || !result.download.download_url) throw new Error('Invalid response');
+      showLoading(true);
+      const res = await callAPI('ytmp4', { url });
+      if (!res || !res.download || !res.download.download_url) throw new Error(getErrorMessage());
       completeProgress();
-      setTimeout(() => { showLoading(false); renderResult(result, 'mp4'); }, 500);
-    } catch (error) {
+      setTimeout(() => { showLoading(false); renderResult(res, 'mp4'); }, 500);
+    } catch (err) {
       completeProgress();
-      setTimeout(() => { showLoading(false); displayError(error.message || (currentLang === 'id' ? 'Gagal memproses video' : 'Failed to process video')); }, 500);
+      setTimeout(() => { showLoading(false); displayError(err.message); }, 500);
     }
   }
   
-  async function handleMp3() {
+  async function handleAudio() {
     try {
       const url = getUrl();
-      showLoading(true, 'mp3');
-      const result = await callAPI('ytmp3', { url });
-      if (!result || !result.download || !result.download.download_url) throw new Error('Invalid response');
+      showLoading(true);
+      const res = await callAPI('ytmp3', { url });
+      if (!res || !res.download || !res.download.download_url) throw new Error(getErrorMessage());
       completeProgress();
-      setTimeout(() => { showLoading(false); renderResult(result, 'mp3'); }, 500);
-    } catch (error) {
+      setTimeout(() => { showLoading(false); renderResult(res, 'mp3'); }, 500);
+    } catch (err) {
       completeProgress();
-      setTimeout(() => { showLoading(false); displayError(error.message || (currentLang === 'id' ? 'Gagal memproses audio' : 'Failed to process audio')); }, 500);
+      setTimeout(() => { showLoading(false); displayError(err.message); }, 500);
     }
   }
   
-  btnMp4.addEventListener('click', handleMp4);
-  btnMp3.addEventListener('click', handleMp3);
-  urlInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleMp4(); });
+  btnVideo.addEventListener('click', handleVideo);
+  btnAudio.addEventListener('click', handleAudio);
+  urlInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleVideo(); });
 });
