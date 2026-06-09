@@ -1,7 +1,19 @@
-# robots.txt for Danuxy Studio
+# robots.txt for Danuxy Studio - YouTube Downloader
 User-agent: *
 Allow: /
 Sitemap: https://ytdl.danuxy.com/sitemap.xml
 
-# Block API routes
+# Crawl delay to respect server
+Crawl-delay: 1
+
+# Host
+Host: https://ytdl.danuxy.com
+
+# Block API routes from indexing
 Disallow: /api/
+Disallow: /api/download
+
+# Allow all other resources
+Allow: /css/
+Allow: /js/
+Allow: /assets/

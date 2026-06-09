@@ -8,8 +8,9 @@ const rateLimit = require('express-rate-limit');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ============ SECURITY HEADERS ============
+// ============ SEO & SECURITY HEADERS ============
 app.use((req, res, next) => {
+  // Security headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-api-key');
@@ -17,9 +18,17 @@ app.use((req, res, next) => {
   res.setHeader('X-Frame-Options', 'DENY');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   
+  // SEO headers
+  res.setHeader('X-Robots-Tag', 'index, follow');
+  
+  // Cache headers for static assets
   if (req.url.includes('/assets/')) {
     res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
     res.setHeader('Content-Type', 'image/png');
+  }
+  
+  if (req.url.includes('/css/') || req.url.includes('/js/')) {
+    res.setHeader('Cache-Control', 'public, max-age=86400');
   }
   
   next();
@@ -28,13 +37,12 @@ app.use((req, res, next) => {
 app.use(cors());
 app.use(express.json());
 
-// ============ STATIC FILES ============
+// Static files
 app.use(express.static('public', {
   setHeaders: (res, filePath) => {
     if (filePath.endsWith('.png')) {
       res.setHeader('Content-Type', 'image/png');
       res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
-      res.setHeader('Access-Control-Allow-Origin', '*');
     }
     if (filePath.endsWith('.css')) {
       res.setHeader('Content-Type', 'text/css');
@@ -43,6 +51,14 @@ app.use(express.static('public', {
     if (filePath.endsWith('.js')) {
       res.setHeader('Content-Type', 'application/javascript');
       res.setHeader('Cache-Control', 'public, max-age=86400');
+    }
+    if (filePath.endsWith('.xml')) {
+      res.setHeader('Content-Type', 'application/xml');
+      res.setHeader('Cache-Control', 'public, max-age=3600');
+    }
+    if (filePath.endsWith('.txt')) {
+      res.setHeader('Content-Type', 'text/plain');
+      res.setHeader('Cache-Control', 'public, max-age=3600');
     }
   }
 }));
@@ -54,13 +70,12 @@ app.get('/assets/:filename', (req, res) => {
     headers: {
       'Content-Type': 'image/png',
       'Cache-Control': 'public, max-age=31536000, immutable',
-      'Access-Control-Allow-Origin': '*'
+      'X-Robots-Tag': 'noindex'
     }
   });
 });
 
-// ============ PROXY DOWNLOAD - SOLUSI CORS ============
-// Endpoint ini akan mendownload file dari API dan meneruskannya ke user
+// Proxy download endpoint
 app.get('/api/download', async (req, res) => {
   try {
     const { url } = req.query;
@@ -71,7 +86,6 @@ app.get('/api/download', async (req, res) => {
     
     console.log(`[PROXY DOWNLOAD] Downloading: ${url}`);
     
-    // Request file dari API eksternal
     const response = await axios({
       method: 'GET',
       url: url,
@@ -82,7 +96,6 @@ app.get('/api/download', async (req, res) => {
       }
     });
     
-    // Set header untuk download
     const contentDisposition = response.headers['content-disposition'];
     const contentType = response.headers['content-type'];
     
@@ -93,15 +106,13 @@ app.get('/api/download', async (req, res) => {
     if (contentDisposition) {
       res.setHeader('Content-Disposition', contentDisposition);
     } else {
-      // Extract filename from URL
       const filename = url.split('/').pop();
       res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
     }
     
-    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Cache-Control', 'public, max-age=3600');
+    res.setHeader('X-Robots-Tag', 'noindex, nofollow');
     
-    // Pipe file stream ke response
     response.data.pipe(res);
     
   } catch (error) {
@@ -154,9 +165,7 @@ app.post('/api/youtube/ytmp4', async (req, res) => {
       
       console.log(`[MP4 Success] Title: ${data.video_info?.title || 'Unknown'}`);
       
-      // ============ KONVERSI URL DOWNLOAD KE PROXY ============
-      const originalDownloadUrl = data.download.download_url;
-      const proxyDownloadUrl = `/api/download?url=${encodeURIComponent(originalDownloadUrl)}`;
+      const proxyDownloadUrl = `/api/download?url=${encodeURIComponent(data.download.download_url)}`;
       
       res.json({
         success: true,
@@ -164,8 +173,7 @@ app.post('/api/youtube/ytmp4', async (req, res) => {
           video_info: data.video_info,
           download: {
             ...data.download,
-            download_url: proxyDownloadUrl,
-            original_url: originalDownloadUrl // opsional, untuk debugging
+            download_url: proxyDownloadUrl
           }
         }
       });
@@ -212,9 +220,7 @@ app.post('/api/youtube/ytmp3', async (req, res) => {
       
       console.log(`[MP3 Success] Title: ${data.video_info?.title || 'Unknown'}`);
       
-      // ============ KONVERSI URL DOWNLOAD KE PROXY ============
-      const originalDownloadUrl = data.download.download_url;
-      const proxyDownloadUrl = `/api/download?url=${encodeURIComponent(originalDownloadUrl)}`;
+      const proxyDownloadUrl = `/api/download?url=${encodeURIComponent(data.download.download_url)}`;
       
       res.json({
         success: true,
@@ -222,8 +228,7 @@ app.post('/api/youtube/ytmp3', async (req, res) => {
           video_info: data.video_info,
           download: {
             ...data.download,
-            download_url: proxyDownloadUrl,
-            original_url: originalDownloadUrl // opsional, untuk debugging
+            download_url: proxyDownloadUrl
           }
         }
       });
@@ -261,5 +266,5 @@ app.listen(PORT, () => {
   console.log(`🚀 Danuxy Studio Downloader running on http://localhost:${PORT}`);
   console.log(`🔒 Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`📹 Using quality: 1080p for video downloads`);
-  console.log(`🔄 Proxy download enabled: /api/download?url=...`);
+  console.log(`🔄 Proxy download enabled`);
 });

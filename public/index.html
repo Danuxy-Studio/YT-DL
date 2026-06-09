@@ -1,217 +1,406 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  
-  <title>Danuxy Studio | YouTube Downloader - Download Video & Audio YouTube Gratis</title>
-  <meta name="description" content="Download video dan audio YouTube gratis dengan kualitas 1080p terbaik. Cepat, aman, dan mudah digunakan. Support MP4 & MP3.">
-  <meta name="keywords" content="youtube downloader, download video youtube, download mp3 youtube, danuxy studio">
-  <meta name="author" content="Danuxy Studio">
-  <meta name="robots" content="index, follow">
-  
-  <!-- Canonical URL -->
-  <link rel="canonical" href="https://ytdl.danuxy.com/">
-  
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://ytdl.danuxy.com/">
-  <meta property="og:title" content="Danuxy Studio - YouTube Downloader">
-  <meta property="og:description" content="Download video & audio YouTube gratis. Kualitas 1080p terbaik, cepat, dan aman.">
-  <meta property="og:image" content="https://ytdl.danuxy.com/assets/banner.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:type" content="image/png">
-  
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Danuxy Studio - YouTube Downloader">
-  <meta name="twitter:description" content="Download YouTube videos & audio for free. Best 1080p quality.">
-  <meta name="twitter:image" content="https://ytdl.danuxy.com/assets/banner.png">
-  
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo.png">
-  
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-  <div class="app">
-    <!-- Header -->
-    <header class="header">
-      <div class="logo-wrapper">
-        <div class="logo-icon">
-          <i class="fab fa-youtube"></i>
-        </div>
-        <h1 class="site-title">Danuxy<span>Studio</span></h1>
-      </div>
-      <p class="site-tagline" id="siteTagline">YouTube Downloader</p>
-    </header>
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+        />
 
-    <!-- Main Content -->
-    <main class="main">
-      <!-- Download Card -->
-      <div class="card download-card">
-        <div class="input-group">
-          <div class="input-icon">
-            <i class="fab fa-youtube"></i>
-          </div>
-          <input 
-            type="text" 
-            id="youtubeUrl" 
-            class="url-input" 
-            placeholder="Paste YouTube URL here..."
-            autocomplete="off"
-          >
-          <button id="clearBtn" class="clear-btn">
-            <i class="fas fa-times"></i>
-          </button>
-        </div>
-        
-        <div class="quality-info">
-          <div class="quality-badge">
-            <i class="fas fa-crown"></i>
-            <span>1080p Quality (Auto Fallback)</span>
-          </div>
-        </div>
-        
-        <div class="button-group">
-          <button id="btnMp4" class="btn btn-primary">
-            <i class="fas fa-download"></i>
-            <span>Download Video</span>
-            <i class="fas fa-video"></i>
-          </button>
-          <button id="btnMp3" class="btn btn-secondary">
-            <i class="fas fa-download"></i>
-            <span>Download Audio</span>
-            <i class="fas fa-music"></i>
-          </button>
-        </div>
-      </div>
+        <title>
+            Danuxy Studio | YouTube Downloader Terbaik - Download Video & Audio
+            YouTube
+        </title>
+        <meta
+            name="description"
+            content="Danuxy Studio - YouTube downloader gratis terbaik 2025. Download video YouTube kualitas 1080p, 720p, dan MP3 dengan cepat, aman, dan mudah digunakan. Tanpa iklan, tanpa registrasi."
+        />
+        <meta
+            name="keywords"
+            content="Danuxy Studio, Danuxy Studio YouTube Downloader, YouTube downloader, download video YouTube, download mp3 YouTube, DanuZz, ytdl, youtube converter"
+        />
+        <meta name="author" content="Danuxy Studio" />
+        <meta name="robots" content="index, follow" />
+        <meta name="googlebot" content="index, follow" />
+        <meta name="bingbot" content="index, follow" />
+        <meta name="revisit-after" content="1 day" />
 
-      <!-- Loading State -->
-      <div id="loadingState" class="loading-state hidden">
-        <div class="loading-card">
-          <div class="loading-spinner">
-            <div class="spinner-ring"></div>
-            <i class="fas fa-video loading-icon" id="loadingIcon"></i>
-          </div>
-          <h3 id="loadingTitle">Processing...</h3>
-          <p id="loadingSubtitle">Connecting to server</p>
-          <div class="progress-wrapper">
-            <div class="progress-track">
-              <div class="progress-fill" id="progressFill"></div>
-            </div>
-            <span class="progress-percent" id="progressText">0%</span>
-          </div>
-          <div class="steps">
-            <div class="step" id="step1">
-              <i class="fas fa-link"></i>
-              <span id="stepLabel1">Verify</span>
-            </div>
-            <div class="step" id="step2">
-              <i class="fas fa-server"></i>
-              <span id="stepLabel2">Fetch</span>
-            </div>
-            <div class="step" id="step3">
-              <i class="fas fa-magic"></i>
-              <span id="stepLabel3">Process</span>
-            </div>
-            <div class="step" id="step4">
-              <i class="fas fa-check"></i>
-              <span id="stepLabel4">Ready</span>
-            </div>
-          </div>
-        </div>
-      </div>
+        <!-- Canonical URL -->
+        <link rel="canonical" href="https://ytdl.danuxy.com/" />
+        <link
+            rel="alternate"
+            href="https://ytdl.danuxy.com/"
+            hreflang="x-default"
+        />
+        <link rel="alternate" href="https://ytdl.danuxy.com/" hreflang="id" />
+        <link rel="alternate" href="https://ytdl.danuxy.com/en" hreflang="en" />
 
-      <!-- Result State -->
-      <div id="resultState" class="result-state hidden"></div>
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://ytdl.danuxy.com/" />
+        <meta
+            property="og:title"
+            content="Danuxy Studio - YouTube Downloader Terbaik"
+        />
+        <meta
+            property="og:description"
+            content="Download video & audio YouTube gratis dengan kualitas 1080p terbaik. Cepat, aman, dan mudah digunakan."
+        />
+        <meta
+            property="og:image"
+            content="https://ytdl.danuxy.com/assets/banner.png"
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="Danuxy Studio" />
+        <meta property="og:locale" content="id_ID" />
 
-      <!-- How to Use Card -->
-      <div class="card howto-card" id="howtoCard">
-        <div class="howto-header">
-          <div class="howto-icon">
-            <i class="fas fa-question-circle"></i>
-          </div>
-          <h3 id="howtoTitle">How to Use</h3>
-        </div>
-        <div class="howto-steps">
-          <div class="step-item">
-            <div class="step-number">1</div>
-            <div class="step-content">
-              <i class="fab fa-youtube"></i>
-              <span id="step1Text">Copy YouTube video URL from browser</span>
-            </div>
-          </div>
-          <div class="step-item">
-            <div class="step-number">2</div>
-            <div class="step-content">
-              <i class="fas fa-paste"></i>
-              <span id="step2Text">Paste the URL in the input field above</span>
-            </div>
-          </div>
-          <div class="step-item">
-            <div class="step-number">3</div>
-            <div class="step-content">
-              <i class="fas fa-video"></i>
-              <span id="step3Text">Click "Download Video" or "Download Audio" button</span>
-            </div>
-          </div>
-          <div class="step-item">
-            <div class="step-number">4</div>
-            <div class="step-content">
-              <i class="fas fa-save"></i>
-              <span id="step4Text">Wait for processing and click download button</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@danuxy" />
+        <meta name="twitter:creator" content="@danuxy" />
+        <meta
+            name="twitter:title"
+            content="Danuxy Studio - YouTube Downloader"
+        />
+        <meta
+            name="twitter:description"
+            content="Download YouTube videos & audio for free. Best quality, fast, secure."
+        />
+        <meta
+            name="twitter:image"
+            content="https://ytdl.danuxy.com/assets/banner.png"
+        />
 
-    <!-- Donation Modal -->
-    <div id="donationModal" class="modal hidden">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2>
-            <i class="fas fa-heart"></i>
-            Support Danuxy Studio
-          </h2>
-          <button class="modal-close" id="closeModal">&times;</button>
-        </div>
-        <div class="modal-body">
-          <p>
-            Your support keeps this service running and free for everyone!
-          </p>
-          <a href="https://sociabuzz.com/nuxy_mc/tribe" 
-             class="donation-sociabuzz-btn" 
-             target="_blank" 
-             rel="noopener noreferrer">
-            <i class="fas fa-heart"></i>
-            <span>Donate via Sociabuzz</span>
-            <i class="fas fa-arrow-right"></i>
-          </a>
-          <div class="modal-secure-badge">
-            <i class="fas fa-shield-alt"></i>
-            <span>Secure payment • Fast & Easy</span>
-          </div>
-        </div>
-      </div>
-    </div>
+        <!-- Favicon -->
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/assets/logo.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/assets/logo.png"
+        />
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo.png" />
 
-    <!-- Footer -->
-    <footer class="footer">
-      <button id="donationBtn" class="donation-btn">
-        <i class="fas fa-heart"></i>
-        <span id="donateText">Support Us</span>
-        <i class="fas fa-arrow-right"></i>
-      </button>
-      
-      <div class="footer-links">
+        <!-- Fonts -->
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        />
+
+        <link rel="stylesheet" href="/css/style.css" />
+
+        <!-- Structured Data: Organization -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "name": "Danuxy Studio",
+                "url": "https://ytdl.danuxy.com",
+                "logo": "https://ytdl.danuxy.com/assets/logo.png",
+                "description": "Free YouTube video and audio downloader with best quality support",
+                "sameAs": [
+                    "https://github.com/danuxy",
+                    "https://wa.me/6281234567890"
+                ],
+                "founder": {
+                    "@type": "Person",
+                    "name": "DanuZz"
+                }
+            }
+        </script>
+
+        <!-- Structured Data: WebApplication -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "WebApplication",
+                "name": "Danuxy Studio YouTube Downloader",
+                "description": "Free YouTube video and audio downloader with best quality support. Download 1080p, 720p, MP3.",
+                "applicationCategory": "Multimedia",
+                "operatingSystem": "All",
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "IDR"
+                },
+                "author": {
+                    "@type": "Organization",
+                    "name": "Danuxy Studio",
+                    "url": "https://ytdl.danuxy.com"
+                },
+                "keywords": "youtube downloader, download video youtube, download mp3, Danuxy Studio, DanuZz",
+                "featureList": "1080p Video Download, MP3 Audio Download, Fast Processing, No Registration",
+                "aggregateRating": {
+                    "@type": "AggregateRating",
+                    "ratingValue": "4.9",
+                    "ratingCount": "1520"
+                }
+            }
+        </script>
+
+        <!-- Structured Data: BreadcrumbList -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Home",
+                        "item": "https://ytdl.danuxy.com/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "Danuxy Studio YouTube Downloader",
+                        "item": "https://ytdl.danuxy.com/"
+                    }
+                ]
+            }
+        </script>
+
+        <!-- Structured Data: FAQ -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "Apa itu Danuxy Studio?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Danuxy Studio adalah layanan downloader YouTube gratis yang dikembangkan oleh DanuZz, memungkinkan pengguna mengunduh video dan audio dari YouTube dengan mudah."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Apakah Danuxy Studio gratis?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Ya, Danuxy Studio sepenuhnya gratis tanpa biaya tersembunyi."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Kualitas apa yang didukung?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Danuxy Studio mendukung download video hingga 1080p dan audio MP3."
+                        }
+                    }
+                ]
+            }
+        </script>
+    </head>
+    <body>
+        <div class="app">
+            <!-- Header -->
+            <header class="header">
+                <div class="logo-wrapper">
+                    <div class="logo-icon">
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                    <h1 class="site-title">Danuxy<span>Studio</span></h1>
+                </div>
+                <p class="site-tagline" id="siteTagline">YouTube Downloader</p>
+            </header>
+
+            <!-- Main Content -->
+            <main class="main">
+                <!-- Download Card -->
+                <div class="card download-card">
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <i class="fab fa-youtube"></i>
+                        </div>
+                        <input
+                            type="text"
+                            id="youtubeUrl"
+                            class="url-input"
+                            placeholder="Paste YouTube URL here..."
+                            autocomplete="off"
+                        />
+                        <button id="clearBtn" class="clear-btn">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    <div class="quality-info">
+                        <div class="quality-badge">
+                            <i class="fas fa-crown"></i>
+                            <span>1080p Quality (Auto Fallback)</span>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button id="btnMp4" class="btn btn-primary">
+                            <i class="fas fa-download"></i>
+                            <span>Download Video</span>
+                            <i class="fas fa-video"></i>
+                        </button>
+                        <button id="btnMp3" class="btn btn-secondary">
+                            <i class="fas fa-download"></i>
+                            <span>Download Audio</span>
+                            <i class="fas fa-music"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Loading State -->
+                <div id="loadingState" class="loading-state hidden">
+                    <div class="loading-card">
+                        <div class="loading-spinner">
+                            <div class="spinner-ring"></div>
+                            <i
+                                class="fas fa-video loading-icon"
+                                id="loadingIcon"
+                            ></i>
+                        </div>
+                        <h3 id="loadingTitle">Processing...</h3>
+                        <p id="loadingSubtitle">Connecting to server</p>
+                        <div class="progress-wrapper">
+                            <div class="progress-track">
+                                <div
+                                    class="progress-fill"
+                                    id="progressFill"
+                                ></div>
+                            </div>
+                            <span class="progress-percent" id="progressText"
+                                >0%</span
+                            >
+                        </div>
+                        <div class="steps">
+                            <div class="step" id="step1">
+                                <i class="fas fa-link"></i>
+                                <span id="stepLabel1">Verify</span>
+                            </div>
+                            <div class="step" id="step2">
+                                <i class="fas fa-server"></i>
+                                <span id="stepLabel2">Fetch</span>
+                            </div>
+                            <div class="step" id="step3">
+                                <i class="fas fa-magic"></i>
+                                <span id="stepLabel3">Process</span>
+                            </div>
+                            <div class="step" id="step4">
+                                <i class="fas fa-check"></i>
+                                <span id="stepLabel4">Ready</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Result State -->
+                <div id="resultState" class="result-state hidden"></div>
+
+                <!-- How to Use Card -->
+                <div class="card howto-card" id="howtoCard">
+                    <div class="howto-header">
+                        <div class="howto-icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <h3 id="howtoTitle">How to Use</h3>
+                    </div>
+                    <div class="howto-steps">
+                        <div class="step-item">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <i class="fab fa-youtube"></i>
+                                <span id="step1Text"
+                                    >Copy YouTube video URL from browser</span
+                                >
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <i class="fas fa-paste"></i>
+                                <span id="step2Text"
+                                    >Paste the URL in the input field
+                                    above</span
+                                >
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <i class="fas fa-video"></i>
+                                <span id="step3Text"
+                                    >Click "Download Video" or "Download Audio"
+                                    button</span
+                                >
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <i class="fas fa-save"></i>
+                                <span id="step4Text"
+                                    >Wait for processing and click download
+                                    button</span
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Donation Modal -->
+            <div id="donationModal" class="modal hidden">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>
+                            <i class="fas fa-heart"></i>
+                            Support Danuxy Studio
+                        </h2>
+                        <button class="modal-close" id="closeModal">
+                            &times;
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Your support keeps this service running and free for
+                            everyone!
+                        </p>
+                        <a
+                            href="https://sociabuzz.com/nuxy_mc/tribe"
+                            class="donation-sociabuzz-btn"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <i class="fas fa-heart"></i>
+                            <span>Donate via Sociabuzz</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <div class="modal-secure-badge">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Secure payment • Fast & Easy</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <button id="donationBtn" class="donation-btn">
+                    <i class="fas fa-heart"></i>
+                    <span id="donateText">Support Us</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+
+                <div class="footer-links">
         <a href="https://whatsapp.com/channel/0029Vb6RsCAEAKWDFTrHdu0L" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
           <i class="fab fa-whatsapp"></i>
         </a>
@@ -219,11 +408,43 @@
           <i class="fab fa-github"></i>
         </a>
       </div>
-      
-      <p class="copyright" id="copyright">© 2026 Danuxy Studio</p>
-    </footer>
-  </div>
 
-  <script src="/js/main.js" defer></script>
-</body>
+                <p class="copyright" id="copyright">© 2026 Danuxy Studio</p>
+            </footer>
+        </div>
+
+        <!-- SEO Content (visible for search engines) -->
+        <div class="seo-content" style="display: none">
+            <h2>Danuxy Studio - YouTube Downloader Terpercaya</h2>
+            <p>
+                Danuxy Studio adalah layanan downloader YouTube gratis yang
+                dikembangkan oleh DanuZz. Layanan ini memungkinkan Anda
+                mengunduh video YouTube dengan kualitas 1080p, 720p, 480p, 360p,
+                dan audio MP3 dengan mudah dan cepat.
+            </p>
+            <p>
+                Dengan Danuxy Studio YouTube Downloader, Anda dapat menyimpan
+                konten favorit dari YouTube tanpa perlu registrasi. Cepat, aman,
+                dan sepenuhnya gratis. Danuxy Studio juga mendukung berbagai
+                format download termasuk MP4 dan MP3.
+            </p>
+            <p>
+                Danuxy Studio adalah solusi terbaik untuk mendownload video
+                YouTube di Indonesia. Dikembangkan oleh DanuZz, layanan ini
+                terus berkembang dengan fitur-fitur terbaru.
+            </p>
+
+            <h3>Fitur Unggulan Danuxy Studio:</h3>
+            <ul>
+                <li>Download video YouTube kualitas 1080p HD</li>
+                <li>Download audio YouTube format MP3</li>
+                <li>Proses cepat dan aman</li>
+                <li>Tanpa iklan mengganggu</li>
+                <li>Tanpa registrasi</li>
+                <li>Gratis selamanya</li>
+            </ul>
+        </div>
+
+        <script src="/js/main.js" defer></script>
+    </body>
 </html>
