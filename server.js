@@ -10,7 +10,6 @@ const PORT = process.env.PORT || 3000;
 
 // ============ SECURITY HEADERS ============
 app.use((req, res, next) => {
-  // Header khusus untuk Open Graph
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-api-key');
@@ -18,7 +17,6 @@ app.use((req, res, next) => {
   res.setHeader('X-Frame-Options', 'DENY');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   
-  // Cache untuk asset gambar
   if (req.url.includes('/assets/')) {
     res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
     res.setHeader('Content-Type', 'image/png');
@@ -36,7 +34,6 @@ app.use(express.static('public', {
     if (filePath.endsWith('.png')) {
       res.setHeader('Content-Type', 'image/png');
       res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
-      // Header penting untuk Open Graph
       res.setHeader('Access-Control-Allow-Origin', '*');
     }
     if (filePath.endsWith('.css')) {
@@ -50,11 +47,9 @@ app.use(express.static('public', {
   }
 }));
 
-// Asset route dengan header khusus
+// Asset route
 app.get('/assets/:filename', (req, res) => {
-  const filename = req.params.filename;
-  const filePath = path.join(__dirname, 'public', 'assets', filename);
-  
+  const filePath = path.join(__dirname, 'public', 'assets', req.params.filename);
   res.sendFile(filePath, {
     headers: {
       'Content-Type': 'image/png',
@@ -62,6 +57,60 @@ app.get('/assets/:filename', (req, res) => {
       'Access-Control-Allow-Origin': '*'
     }
   });
+});
+
+// ============ PROXY DOWNLOAD - SOLUSI CORS ============
+// Endpoint ini akan mendownload file dari API dan meneruskannya ke user
+app.get('/api/download', async (req, res) => {
+  try {
+    const { url } = req.query;
+    
+    if (!url) {
+      return res.status(400).json({ success: false, message: 'URL is required' });
+    }
+    
+    console.log(`[PROXY DOWNLOAD] Downloading: ${url}`);
+    
+    // Request file dari API eksternal
+    const response = await axios({
+      method: 'GET',
+      url: url,
+      responseType: 'stream',
+      timeout: 60000,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+      }
+    });
+    
+    // Set header untuk download
+    const contentDisposition = response.headers['content-disposition'];
+    const contentType = response.headers['content-type'];
+    
+    if (contentType) {
+      res.setHeader('Content-Type', contentType);
+    }
+    
+    if (contentDisposition) {
+      res.setHeader('Content-Disposition', contentDisposition);
+    } else {
+      // Extract filename from URL
+      const filename = url.split('/').pop();
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+    }
+    
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Cache-Control', 'public, max-age=3600');
+    
+    // Pipe file stream ke response
+    response.data.pipe(res);
+    
+  } catch (error) {
+    console.error('[PROXY DOWNLOAD Error]:', error.message);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Failed to download file: ' + error.message 
+    });
+  }
 });
 
 // Rate limiting
@@ -105,11 +154,19 @@ app.post('/api/youtube/ytmp4', async (req, res) => {
       
       console.log(`[MP4 Success] Title: ${data.video_info?.title || 'Unknown'}`);
       
+      // ============ KONVERSI URL DOWNLOAD KE PROXY ============
+      const originalDownloadUrl = data.download.download_url;
+      const proxyDownloadUrl = `/api/download?url=${encodeURIComponent(originalDownloadUrl)}`;
+      
       res.json({
         success: true,
         data: {
           video_info: data.video_info,
-          download: data.download
+          download: {
+            ...data.download,
+            download_url: proxyDownloadUrl,
+            original_url: originalDownloadUrl // opsional, untuk debugging
+          }
         }
       });
     } else {
@@ -155,11 +212,19 @@ app.post('/api/youtube/ytmp3', async (req, res) => {
       
       console.log(`[MP3 Success] Title: ${data.video_info?.title || 'Unknown'}`);
       
+      // ============ KONVERSI URL DOWNLOAD KE PROXY ============
+      const originalDownloadUrl = data.download.download_url;
+      const proxyDownloadUrl = `/api/download?url=${encodeURIComponent(originalDownloadUrl)}`;
+      
       res.json({
         success: true,
         data: {
           video_info: data.video_info,
-          download: data.download
+          download: {
+            ...data.download,
+            download_url: proxyDownloadUrl,
+            original_url: originalDownloadUrl // opsional, untuk debugging
+          }
         }
       });
     } else {
@@ -195,4 +260,6 @@ app.get('*', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Danuxy Studio Downloader running on http://localhost:${PORT}`);
   console.log(`🔒 Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`📹 Using quality: 1080p for video downloads`);
+  console.log(`🔄 Proxy download enabled: /api/download?url=...`);
 });
