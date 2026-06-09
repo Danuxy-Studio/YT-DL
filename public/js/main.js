@@ -1,30 +1,23 @@
-// ============ PERFORMANCE OPTIMIZED ============
 (function() {
   'use strict';
   
-  let urlInput, clearBtn, btnVideo, btnAudio, loadingInline, resultDiv, progressFill;
+  let urlInput, clearBtn, btnVideo, btnAudio, loadingDiv, resultDiv, progressFill;
   let progressInterval = null;
   let isProcessing = false;
   
   const API_BASE = '/api/youtube';
   
   document.addEventListener('DOMContentLoaded', () => {
-    // Cache DOM elements
     urlInput = document.getElementById('urlInput');
     clearBtn = document.getElementById('clearBtn');
     btnVideo = document.getElementById('btnVideo');
     btnAudio = document.getElementById('btnAudio');
-    loadingInline = document.getElementById('loadingInline');
+    loadingDiv = document.getElementById('loading');
     resultDiv = document.getElementById('result');
     progressFill = document.getElementById('progressFill');
     
     if (!urlInput || !btnVideo || !btnAudio) return;
     
-    setupEventListeners();
-    setupDonationModal();
-  });
-  
-  function setupEventListeners() {
     if (clearBtn) {
       urlInput.addEventListener('input', () => {
         clearBtn.style.display = urlInput.value ? 'flex' : 'none';
@@ -36,14 +29,12 @@
       });
     }
     
-    btnVideo.addEventListener('click', handleVideo);
-    btnAudio.addEventListener('click', handleAudio);
+    btnVideo.addEventListener('click', () => handleDownload('mp4'));
+    btnAudio.addEventListener('click', () => handleDownload('mp3'));
     urlInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') handleVideo();
+      if (e.key === 'Enter') handleDownload('mp4');
     });
-  }
-  
-  function setupDonationModal() {
+    
     const donateBtn = document.getElementById('donateBtn');
     const modal = document.getElementById('modal');
     const closeModal = document.getElementById('closeModal');
@@ -64,19 +55,11 @@
         }
       });
     }
-  }
+  });
   
   function startProgress() {
     let progress = 0;
     if (progressInterval) clearInterval(progressInterval);
-    
-    for (let i = 1; i <= 4; i++) {
-      const step = document.getElementById(`step${i}`);
-      if (step) {
-        step.classList.remove('active', 'completed');
-        if (i === 1) step.classList.add('active');
-      }
-    }
     
     progressInterval = setInterval(() => {
       if (progress < 95) {
@@ -84,43 +67,21 @@
         if (progress > 95) progress = 95;
         if (progressFill) progressFill.style.width = `${progress}%`;
       }
-      const stepIdx = Math.min(Math.floor(progress / 25) + 1, 4);
-      for (let i = 1; i <= stepIdx; i++) {
-        const step = document.getElementById(`step${i}`);
-        if (step) {
-          step.classList.remove('active');
-          step.classList.add('completed');
-        }
-      }
-      if (stepIdx < 4) {
-        const next = document.getElementById(`step${stepIdx + 1}`);
-        if (next) next.classList.add('active');
-      }
-    }, 700);
+    }, 500);
   }
   
   function completeProgress() {
-    if (progressInterval) {
-      clearInterval(progressInterval);
-      progressInterval = null;
-    }
+    if (progressInterval) clearInterval(progressInterval);
     if (progressFill) progressFill.style.width = '100%';
-    for (let i = 1; i <= 4; i++) {
-      const step = document.getElementById(`step${i}`);
-      if (step) {
-        step.classList.remove('active');
-        step.classList.add('completed');
-      }
-    }
   }
   
   function showLoading(show) {
     if (show) {
-      loadingInline.classList.remove('hidden');
+      loadingDiv.classList.remove('hidden');
       resultDiv.classList.add('hidden');
       startProgress();
     } else {
-      loadingInline.classList.add('hidden');
+      loadingDiv.classList.add('hidden');
     }
   }
   
@@ -182,14 +143,14 @@
     
     const html = `
       <div class="result-card">
-        <div class="preview">
-          <div class="thumb">
+        <div class="result-preview">
+          <div class="result-thumb">
             <img src="${thumb}" alt="Thumbnail" loading="lazy" onerror="this.src='https://i.ytimg.com/vi/default/hqdefault.jpg'">
-            ${duration ? `<span class="duration">${duration}</span>` : ''}
+            ${duration ? `<span class="duration-badge">${duration}</span>` : ''}
           </div>
-          <div class="info">
-            <div class="title">${escapeHtml(title)}</div>
-            <div class="meta">
+          <div class="result-info">
+            <div class="result-title">${escapeHtml(title)}</div>
+            <div class="result-meta">
               <span><i class="fas fa-user"></i> ${escapeHtml(channel)}</span>
               ${views ? `<span><i class="fas fa-eye"></i> ${views}</span>` : ''}
               <span class="quality-chip"><i class="fas fa-tachometer-alt"></i> ${escapeHtml(quality)}</span>
@@ -198,12 +159,10 @@
         </div>
         <div class="file-info">
           <span><i class="fas fa-file"></i> ${escapeHtml(filename)}</span>
-          <span>${escapeHtml(size)}</span>
+          <span><i class="fas fa-database"></i> ${escapeHtml(size)}</span>
         </div>
         <a href="${dlUrl}" class="download-link" download target="_blank"><i class="fas fa-download"></i> ${downloadText}</a>
-        <div style="margin-top: 12px; font-size: 10px; text-align: center; color: #71717a;">
-          <i class="fas fa-shield-alt"></i> Download aman dari Danuxy Studio
-        </div>
+        <div class="secure-note"><i class="fas fa-shield-alt"></i> Download aman dari Danuxy Studio</div>
       </div>
     `;
     
@@ -213,48 +172,24 @@
   }
   
   function displayError(msg) {
-    resultDiv.innerHTML = `<div class="error-msg"><i class="fas fa-exclamation-triangle"></i><div><strong>Error</strong><br>${escapeHtml(msg)}</div></div>`;
+    resultDiv.innerHTML = `<div class="error"><i class="fas fa-exclamation-triangle"></i><div><strong>Error</strong><br>${escapeHtml(msg)}</div></div>`;
     resultDiv.classList.remove('hidden');
   }
   
-  async function handleVideo() {
+  async function handleDownload(type) {
     if (isProcessing) return;
     isProcessing = true;
     
     try {
       const url = getUrl();
       showLoading(true);
-      const res = await callAPI('ytmp4', { url });
+      const endpoint = type === 'mp4' ? 'ytmp4' : 'ytmp3';
+      const res = await callAPI(endpoint, { url });
       if (!res || !res.download || !res.download.download_url) throw new Error('Gagal memproses');
       completeProgress();
       setTimeout(() => {
         showLoading(false);
-        renderResult(res, 'mp4');
-        isProcessing = false;
-      }, 500);
-    } catch (err) {
-      completeProgress();
-      setTimeout(() => {
-        showLoading(false);
-        displayError(err.message);
-        isProcessing = false;
-      }, 500);
-    }
-  }
-  
-  async function handleAudio() {
-    if (isProcessing) return;
-    isProcessing = true;
-    
-    try {
-      const url = getUrl();
-      showLoading(true);
-      const res = await callAPI('ytmp3', { url });
-      if (!res || !res.download || !res.download.download_url) throw new Error('Gagal memproses');
-      completeProgress();
-      setTimeout(() => {
-        showLoading(false);
-        renderResult(res, 'mp3');
+        renderResult(res, type);
         isProcessing = false;
       }, 500);
     } catch (err) {
