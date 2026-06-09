@@ -18,10 +18,6 @@
   <meta property="og:title" content="Danuxy Studio | YouTube Downloader 1080p Terbaik &amp; Cepat">
   <meta property="og:description" content="Download video YouTube kualitas 1080p Full HD dan audio MP3 gratis, aman, cepat, dan tanpa ribet daftar.">
   <meta property="og:image" content="https://ytdl.danuxy.com/assets/banner.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:type" content="image/png">
-  <meta property="og:site_name" content="Danuxy Studio">
   
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://ytdl.danuxy.com/">
@@ -32,13 +28,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/solid.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/brands.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/fontawesome.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   
   <link rel="stylesheet" href="/css/style.css">
 </head>
@@ -49,40 +41,32 @@
 <div class="container">
   <header class="header">
     <div class="logo">
-      <div class="logo-icon"><i class="fa-brands fa-youtube"></i></div>
+      <div class="logo-icon"><i class="fab fa-youtube"></i></div>
       <h1 class="logo-text">Danuxy<span>Studio</span></h1>
     </div>
     <p class="tagline">YouTube Downloader • Kualitas 1080p Terbaik</p>
   </header>
 
-  <main class="card main-card">
+  <main class="card">
     <div class="input-group">
-      <i class="fa-solid fa-link input-icon"></i>
-      <input type="text" id="urlInput" class="url-input" placeholder="Tempel tautan YouTube di sini..." aria-label="URL YouTube">
-      <button class="clear-btn hidden" id="clearBtn" aria-label="Hapus input"><i class="fa-solid fa-xmark"></i></button>
+      <i class="fas fa-link input-icon"></i>
+      <input type="text" id="urlInput" class="url-input" placeholder="Tempel URL YouTube di sini..." aria-label="URL YouTube">
+      <button class="clear-btn" id="clearBtn" aria-label="Hapus input"><i class="fas fa-times"></i></button>
     </div>
     
     <div class="badge-wrapper">
       <div class="badge">
-        <i class="fa-solid fa-bolt-lightning"></i>
+        <i class="fas fa-bolt"></i>
         <span>Server High-Speed Premium</span>
       </div>
     </div>
     
     <div class="button-group">
       <button class="btn btn-video" id="btnVideo">
-        <span class="btn-content">
-          <i class="fa-solid fa-circle-play btn-main-icon"></i>
-          <span class="btn-text">Download Video</span>
-        </span>
-        <i class="fa-solid fa-arrow-down btn-arrow"></i>
+        <i class="fas fa-video"></i> Download Video
       </button>
       <button class="btn btn-audio" id="btnAudio">
-        <span class="btn-content">
-          <i class="fa-solid fa-music btn-main-icon"></i>
-          <span class="btn-text">Download Audio</span>
-        </span>
-        <i class="fa-solid fa-arrow-down btn-arrow"></i>
+        <i class="fas fa-music"></i> Download Audio
       </button>
     </div>
   </main>
@@ -90,86 +74,61 @@
   <div id="loading" class="loading-card hidden">
     <div class="spinner"></div>
     <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-    <p class="loading-text"><i class="fa-solid fa-spinner fa-pulse"></i> Memproses enkripsi video 1080p...</p>
+    <p class="loading-text"><i class="fas fa-spinner fa-pulse"></i> Mengonversi data media 1080p...</p>
   </div>
 
   <div id="result" class="hidden"></div>
 
   <section class="card howto-card">
-    <div class="section-title">
-      <i class="fa-solid fa-circle-question"></i>
-      <h2>Cara Menggunakan</h2>
+    <div class="howto-header">
+      <i class="fas fa-question-circle"></i>
+      <h3>Cara Menggunakan</h3>
     </div>
     <div class="howto-list">
       <div class="howto-item">
         <div class="howto-num">1</div>
-        <div class="howto-text"><strong>Salin URL:</strong> Buka aplikasi YouTube dan salin tautan video yang Anda inginkan.</div>
+        <div class="howto-text"><i class="fab fa-youtube"></i> <strong>Salin URL:</strong> Buka YouTube dan salin tautan link video pilihan Anda.</div>
       </div>
       <div class="howto-item">
         <div class="howto-num">2</div>
-        <div class="howto-text"><strong>Tempel Link:</strong> Masukkan tautan tersebut ke kolom input di atas halaman ini.</div>
+        <div class="howto-text"><i class="fas fa-paste"></i> <strong>Tempel Link:</strong> Letakkan link tersebut pada kolom input di atas.</div>
       </div>
       <div class="howto-item">
         <div class="howto-num">3</div>
-        <div class="howto-text"><strong>Pilih Opsi:</strong> Klik opsi tombol <em>Download Video</em> atau <em>Download Audio</em>.</div>
+        <div class="howto-text"><i class="fas fa-th-list"></i> <strong>Pilih Format:</strong> Tekan tombol download Video (1080p) atau Audio (MP3).</div>
       </div>
       <div class="howto-item">
         <div class="howto-num">4</div>
-        <div class="howto-text"><strong>Simpan File:</strong> Tunggu konversi server, lalu klik simpan langsung ke galeri Anda.</div>
+        <div class="howto-text"><i class="fas fa-cloud-download-alt"></i> <strong>Simpan Berkas:</strong> Tunggu enkripsi awan selesai, lalu klik unduh ke memori.</div>
       </div>
-    </div>
-  </section>
-
-  <section class="card seo-content-card">
-    <div class="section-title">
-      <i class="fa-solid fa-crown"></i>
-      <h2>Layanan Danuxy Studio</h2>
-    </div>
-    <p class="seo-p">Selamat datang di <strong>Danuxy Studio</strong>, solusi terbaik untuk mengunduh konten multimedia gratis. Kami memproses berkas video kualitas tinggi hingga resolusi 1080p Full HD dan konversi audio MP3 dengan jernih tanpa kendala.</p>
-    
-    <h3 class="seo-h3">Keunggulan Utama</h3>
-    <ul class="seo-ul">
-      <li><strong>Tanpa Batas:</strong> Unduh berkas video dan audio sepuasnya setiap hari secara gratis.</li>
-      <li><strong>Konversi Instan:</strong> Server cloud bekerja cepat melakukan rendering data dalam hitungan detik.</li>
-      <li><strong>100% Aman:</strong> Tanpa perlu mendaftar akun, mengisi data pribadi, dan bebas dari malware berbahaya.</li>
-    </ul>
-
-    <h3 class="seo-h3">Pertanyaan Umum (FAQ)</h3>
-    <div class="faq-item">
-      <h4 class="faq-q">Apakah hasil download video 1080p ada suaranya?</h4>
-      <p class="faq-a">Ya, sistem kami secara otomatis menggabungkan kembali trek video resolusi tinggi dengan trek audio terbaik sebelum file siap diunduh.</p>
-    </div>
-    <div class="faq-item">
-      <h4 class="faq-q">Apakah bisa diakses melalui smartphone?</h4>
-      <p class="faq-a">Tentu saja. Situs ini dikembangkan dengan arsitektur responsif yang sangat ringan dan nyaman dibuka melalui browser Android maupun iOS.</p>
     </div>
   </section>
 
   <section class="features-grid">
-    <div class="feature"><i class="fa-solid fa-video"></i><span>1080p HD</span></div>
-    <div class="feature"><i class="fa-solid fa-music"></i><span>MP3 Audio</span></div>
-    <div class="feature"><i class="fa-solid fa-bolt"></i><span>Super Cepat</span></div>
-    <div class="feature"><i class="fa-solid fa-shield-halved"></i><span>100% Aman</span></div>
-    <div class="feature"><i class="fa-solid fa-infinity"></i><span>Tanpa Batas</span></div>
-    <div class="feature"><i class="fa-solid fa-user-check"></i><span>Tanpa Daftar</span></div>
+    <div class="feature"><i class="fas fa-video"></i><span>1080p HD</span></div>
+    <div class="feature"><i class="fas fa-music"></i><span>MP3 Audio</span></div>
+    <div class="feature"><i class="fas fa-bolt"></i><span>Super Cepat</span></div>
+    <div class="feature"><i class="fas fa-shield-alt"></i><span>100% Aman</span></div>
+    <div class="feature"><i class="fas fa-infinity"></i><span>Tanpa Batas</span></div>
+    <div class="feature"><i class="fas fa-user-check"></i><span>Tanpa Daftar</span></div>
   </section>
 
   <footer class="footer">
-    <button class="donate-btn" id="donateBtn"><i class="fa-solid fa-heart"></i> Dukung Danuxy Studio <i class="fa-solid fa-arrow-right"></i></button>
+    <button class="donate-btn" id="donateBtn"><i class="fas fa-heart"></i> Dukung Danuxy Studio <i class="fas fa-arrow-right"></i></button>
     <div class="social-links">
-      <a href="https://whatsapp.com/channel/0029Vb6RsCAEAKWDFTrHdu0L" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-      <a href="https://github.com/Danuxy-Studio" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+      <a href="https://whatsapp.com/channel/0029Vb6RsCAEAKWDFTrHdu0L" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      <a href="https://github.com/Danuxy-Studio" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
     </div>
-    <p class="copyright">© 2026 Danuxy Studio • Dibuat dengan rapi untuk Web Indonesia</p>
+    <p class="copyright">© 2026 Danuxy Studio • Premium Converter Web Indonesia</p>
   </footer>
 </div>
 
 <div id="modal" class="modal hidden">
   <div class="modal-content">
-    <button class="modal-close" id="closeModal" aria-label="Tutup modal"><i class="fa-solid fa-xmark"></i></button>
-    <h3><i class="fa-solid fa-heart" style="color: #ff3366;"></i> Dukung Danuxy Studio</h3>
-    <p>Dukungan sukarela Anda memastikan infrastruktur server kami tetap aktif melayani semua orang secara gratis.</p>
-    <a href="https://sociabuzz.com/nuxy_mc/tribe" target="_blank" class="modal-btn"><i class="fa-solid fa-heart"></i> Donasi via Sociabuzz <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+    <button class="modal-close" id="closeModal" aria-label="Tutup modal"><i class="fas fa-times"></i></button>
+    <h3><i class="fas fa-heart" style="color: #db2777;"></i> Dukung Danuxy Studio</h3>
+    <p>Bantuan sukarela Anda sangat berharga untuk perpanjangan sewa server premium kecepatan tinggi kami agar tetap gratis.</p>
+    <a href="https://sociabuzz.com/nuxy_mc/tribe" target="_blank" class="modal-btn"><i class="fas fa-heart"></i> Donasi via Sociabuzz <i class="fas fa-external-link-alt"></i></a>
   </div>
 </div>
 

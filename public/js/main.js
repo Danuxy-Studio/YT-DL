@@ -20,15 +20,11 @@
     
     if (clearBtn) {
       urlInput.addEventListener('input', () => {
-        if (urlInput.value) {
-          clearBtn.classList.remove('hidden');
-        } else {
-          clearBtn.classList.add('hidden');
-        }
+        clearBtn.style.display = urlInput.value ? 'flex' : 'none';
       });
       clearBtn.addEventListener('click', () => {
         urlInput.value = '';
-        clearBtn.classList.add('hidden');
+        clearBtn.style.display = 'none';
         urlInput.focus();
       });
     }
@@ -44,113 +40,129 @@
     const closeModal = document.getElementById('closeModal');
     
     if (donateBtn && modal && closeModal) {
-      donateBtn.addEventListener('click', () => modal.classList.remove('hidden'));
-      closeModal.addEventListener('click', () => modal.classList.add('hidden'));
-      window.addEventListener('click', (e) => {
-        if (e.target === modal) modal.classList.add('hidden');
+      donateBtn.addEventListener('click', () => {
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      });
+      closeModal.addEventListener('click', () => {
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+      });
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.add('hidden');
+          document.body.style.overflow = '';
+        }
       });
     }
   });
   
-  function getUrl() {
-    const val = urlInput.value.trim();
-    if (!val) throw new Error('Silakan masukkan URL YouTube terlebih dahulu');
-    return val;
+  function startProgress() {
+    let progress = 0;
+    if (progressInterval) clearInterval(progressInterval);
+    
+    progressInterval = setInterval(() => {
+      if (progress < 92) {
+        progress += Math.random() * 10;
+        if (progress > 92) progress = 92;
+        if (progressFill) progressFill.style.width = `${progress}%`;
+      }
+    }, 400);
+  }
+  
+  function completeProgress() {
+    if (progressInterval) clearInterval(progressInterval);
+    if (progressFill) progressFill.style.width = '100%';
   }
   
   function showLoading(show) {
     if (show) {
-      resultDiv.classList.add('hidden');
       loadingDiv.classList.remove('hidden');
+      resultDiv.classList.add('hidden');
       startProgress();
     } else {
       loadingDiv.classList.add('hidden');
-      stopProgress();
     }
-  }
-  
-  function startProgress() {
-    if (!progressFill) return;
-    let width = 0;
-    progressFill.style.width = '0%';
-    clearInterval(progressInterval);
-    progressInterval = setInterval(() => {
-      if (width >= 88) {
-        clearInterval(progressInterval);
-      } else {
-        width += Math.random() * 4;
-        if (width > 88) width = 88;
-        progressFill.style.width = width + '%';
-      }
-    }, 200);
-  }
-  
-  function completeProgress() {
-    if (!progressFill) return;
-    clearInterval(progressInterval);
-    progressFill.style.width = '100%';
-  }
-  
-  function stopProgress() {
-    clearInterval(progressInterval);
-  }
-  
-  async function callAPI(endpoint, body) {
-    const response = await fetch(`${API_BASE}/${endpoint}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
-    const json = await response.json();
-    if (!response.ok || !json.success) {
-      throw new Error(json.message || 'Gagal merespons dari server API');
-    }
-    return json.data;
   }
   
   function escapeHtml(str) {
     if (!str) return '';
-    return str.replace(/&/g, '&amp;')
-              .replace(/</g, '&lt;')
-              .replace(/>/g, '&gt;')
-              .replace(/"/g, '&quot;')
-              .replace(/'/g, '&#039;');
+    return String(str).replace(/[&<>]/g, (m) => {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    });
+  }
+  
+  function formatViews(v) {
+    if (!v) return null;
+    if (typeof v === 'number') {
+      if (v >= 1000000) return (v / 1000000).toFixed(1) + 'M';
+      if (v >= 1000) return (v / 1000).toFixed(1) + 'K';
+      return v.toString();
+    }
+    return v;
+  }
+  
+  function getUrl() {
+    let raw = urlInput.value.trim();
+    if (!raw) throw new Error('Silakan tempel URL YouTube terlebih dahulu');
+    if (!raw.includes('youtube.com') && !raw.includes('youtu.be')) {
+      throw new Error('Format link YouTube yang dimasukkan tidak valid');
+    }
+    return raw;
+  }
+  
+  async function callAPI(endpoint, payload) {
+    const res = await fetch(`${API_BASE}/${endpoint}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) throw new Error(data.message || 'Gagal memproses video dari server API');
+    return data.data;
   }
   
   function renderResult(data, type) {
-    if (!resultDiv) return;
+    const isMp4 = type === 'mp4';
+    const vi = data.video_info || {};
+    const dl = data.download || {};
     
-    const title = data.title || 'YouTube Media Konten';
-    const thumb = data.thumbnail || 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=300';
-    const duration = data.duration || '--:--';
-    const size = data.download?.size || 'Unknown Size';
-    const dlUrl = data.download?.download_url || '#';
-    const filename = data.download?.filename || (type === 'mp4' ? 'video.mp4' : 'audio.mp3');
-    
-    const qText = type === 'mp4' ? '1080p HD' : 'MP3 Audio';
-    const downloadText = type === 'mp4' ? 'Download Video Sekarang' : 'Download Audio Sekarang';
+    const title = vi.title || (isMp4 ? 'YouTube Video Content' : 'YouTube Audio Content');
+    const thumb = vi.thumbnail || 'https://i.ytimg.com/vi/default/hqdefault.jpg';
+    const channel = vi.channel || 'Danuxy User';
+    const views = formatViews(vi.views_raw || vi.views);
+    const duration = vi.duration || '';
+    const quality = dl.quality || (isMp4 ? '1080p Full HD' : 'MP3 Audio 320kbps');
+    const size = dl.size_mb ? (dl.size_mb.includes('MB') ? dl.size_mb : `${dl.size_mb} MB`) : 'Unknown Size';
+    const dlUrl = dl.download_url;
+    const filename = dl.filename || `danuxy_${Date.now()}.${isMp4 ? 'mp4' : 'mp3'}`;
+    const downloadText = isMp4 ? 'Download Video Sekarang' : 'Download Audio Sekarang';
     
     const html = `
       <div class="result-card">
         <div class="result-preview">
           <div class="result-thumb">
-            <img src="${escapeHtml(thumb)}" alt="Thumbnail">
-            <div class="duration-badge">${escapeHtml(duration)}</div>
+            <img src="${thumb}" alt="Thumbnail" loading="lazy" onerror="this.src='https://i.ytimg.com/vi/default/hqdefault.jpg'">
+            ${duration ? `<span class="duration-badge">${duration}</span>` : ''}
           </div>
-          <div class="result-info-box">
-            <h3 class="result-title" title="${escapeHtml(title)}">${escapeHtml(title)}</h3>
+          <div class="result-info">
+            <div class="result-title">${escapeHtml(title)}</div>
             <div class="result-meta">
-              <span class="quality-chip">${qText}</span>
-              <span>Danuxy Server</span>
+              <span><i class="fas fa-user"></i> ${escapeHtml(channel)}</span>
+              ${views ? `<span><i class="fas fa-eye"></i> ${views}</span>` : ''}
+              <span class="quality-chip"><i class="fas fa-certificate"></i> ${escapeHtml(quality)}</span>
             </div>
           </div>
         </div>
         <div class="file-info">
-          <span><i class="fa-solid fa-file-code"></i> ${escapeHtml(filename)}</span>
-          <span><i class="fa-solid fa-database"></i> ${escapeHtml(size)}</span>
+          <span><i class="fas fa-file"></i> ${escapeHtml(filename)}</span>
+          <span><i class="fas fa-database"></i> ${escapeHtml(size)}</span>
         </div>
-        <a href="${dlUrl}" class="download-link" download target="_blank"><i class="fa-solid fa-download"></i> ${downloadText}</a>
-        <div class="secure-note"><i class="fa-solid fa-shield-halved"></i> Unduhan terenkripsi aman dan bebas malware</div>
+        <a href="${dlUrl}" class="download-link" download target="_blank"><i class="fas fa-download"></i> ${downloadText}</a>
+        <div class="secure-note"><i class="fas fa-shield-alt"></i> File terenkripsi penuh, dijamin aman dari virus</div>
       </div>
     `;
     
@@ -160,13 +172,7 @@
   }
   
   function displayError(msg) {
-    if (!resultDiv) return;
-    resultDiv.innerHTML = `
-      <div class="error">
-        <i class="fa-solid fa-triangle-exclamation" style="margin-top:3px;"></i>
-        <div><strong>Gagal Memproses</strong><br>${escapeHtml(msg)}</div>
-      </div>
-    `;
+    resultDiv.innerHTML = `<div class="error"><i class="fas fa-exclamation-triangle" style="margin-top:2px;"></i><div><strong>Gagal Memproses</strong><br>${escapeHtml(msg)}</div></div>`;
     resultDiv.classList.remove('hidden');
   }
   
@@ -179,7 +185,7 @@
       showLoading(true);
       const endpoint = type === 'mp4' ? 'ytmp4' : 'ytmp3';
       const res = await callAPI(endpoint, { url });
-      if (!res || !res.download || !res.download.download_url) throw new Error('Gagal memproses link unduhan');
+      if (!res || !res.download || !res.download.download_url) throw new Error('Gagal memproses data link file dari cloud server.');
       completeProgress();
       setTimeout(() => {
         showLoading(false);

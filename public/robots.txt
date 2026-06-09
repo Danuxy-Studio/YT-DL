@@ -3,17 +3,17 @@ User-agent: *
 Allow: /
 Sitemap: https://ytdl.danuxy.com/sitemap.xml
 
-# Crawl delay to respect server
+# Atur jeda pemindaian untuk kestabilan server
 Crawl-delay: 1
 
-# Host
+# Host Utama
 Host: https://ytdl.danuxy.com
 
-# Block API routes from indexing
+# Cegah bot mengindeks endpoint API internal agar hemat bandwidth server
 Disallow: /api/
 Disallow: /api/download
 
-# Allow all other resources
+# Izinkan memindai aset styling
 Allow: /css/
 Allow: /js/
 Allow: /assets/
