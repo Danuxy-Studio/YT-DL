@@ -4,54 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   
-  <title>Danuxy Studio | YouTube Downloader</title>
-  <meta name="description" content="Download video & audio YouTube gratis. Kualitas 1080p terbaik, cepat, dan aman.">
-  <meta name="keywords" content="youtube downloader, download video youtube, download mp3 youtube">
+  <title>Danuxy Studio | YouTube Downloader - Download Video & Audio YouTube Gratis</title>
+  <meta name="description" content="Download video dan audio YouTube gratis dengan kualitas 1080p terbaik. Cepat, aman, dan mudah digunakan. Support MP4 & MP3.">
+  <meta name="keywords" content="youtube downloader, download video youtube, download mp3 youtube, danuxy studio">
   <meta name="author" content="Danuxy Studio">
   <meta name="robots" content="index, follow">
   
   <!-- Canonical URL -->
   <link rel="canonical" href="https://ytdl.danuxy.com/">
   
-  <!-- ========== OPEN GRAPH / FACEBOOK ========== -->
-  <meta property="og:url" content="https://ytdl.danuxy.com/">
+  <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ytdl.danuxy.com/">
   <meta property="og:title" content="Danuxy Studio - YouTube Downloader">
   <meta property="og:description" content="Download video & audio YouTube gratis. Kualitas 1080p terbaik, cepat, dan aman.">
   <meta property="og:image" content="https://ytdl.danuxy.com/assets/banner.png">
-  <meta property="og:image:url" content="https://ytdl.danuxy.com/assets/banner.png">
-  <meta property="og:image:secure_url" content="https://ytdl.danuxy.com/assets/banner.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:image:type" content="image/png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Danuxy Studio YouTube Downloader Banner">
-  <meta property="og:locale" content="id_ID">
-  <meta property="og:site_name" content="Danuxy Studio">
   
-  <!-- ========== TWITTER CARD ========== -->
+  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@danuxy">
-  <meta name="twitter:creator" content="@danuxy">
   <meta name="twitter:title" content="Danuxy Studio - YouTube Downloader">
-  <meta name="twitter:description" content="Download video & audio YouTube gratis. Kualitas 1080p terbaik, cepat, dan aman.">
+  <meta name="twitter:description" content="Download YouTube videos & audio for free. Best 1080p quality.">
   <meta name="twitter:image" content="https://ytdl.danuxy.com/assets/banner.png">
-  <meta name="twitter:image:alt" content="Danuxy Studio YouTube Downloader Banner">
-  
-  <!-- ========== WHATSAPP / TELEGRAM ========== -->
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  
-  <!-- Fallback untuk platform yang tidak support OG -->
-  <meta name="thumbnail" content="https://ytdl.danuxy.com/assets/banner.png">
   
   <!-- Favicon -->
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo.png">
   
   <!-- Fonts -->
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap');
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   
   <link rel="stylesheet" href="/css/style.css">
@@ -61,15 +44,17 @@
     <!-- Header -->
     <header class="header">
       <div class="logo-wrapper">
-        <h1 class="site-title">Danuxy<span> Studio</span></h1>
-        <div class="glow-dot"></div>
+        <div class="logo-icon">
+          <i class="fab fa-youtube"></i>
+        </div>
+        <h1 class="site-title">Danuxy<span>Studio</span></h1>
       </div>
       <p class="site-tagline" id="siteTagline">YouTube Downloader</p>
     </header>
 
     <!-- Main Content -->
     <main class="main">
-      <!-- Download Card (Loading di atas) -->
+      <!-- Download Card -->
       <div class="card download-card">
         <div class="input-group">
           <div class="input-icon">
@@ -87,7 +72,7 @@
           </button>
         </div>
         
-        <div class="quality-badge-wrapper">
+        <div class="quality-info">
           <div class="quality-badge">
             <i class="fas fa-crown"></i>
             <span>1080p Quality (Auto Fallback)</span>
@@ -103,12 +88,12 @@
           <button id="btnMp3" class="btn btn-secondary">
             <i class="fas fa-download"></i>
             <span>Download Audio</span>
-            <i class="fas fa-headphones"></i>
+            <i class="fas fa-music"></i>
           </button>
         </div>
       </div>
 
-      <!-- Loading State (Setelah download card) -->
+      <!-- Loading State -->
       <div id="loadingState" class="loading-state hidden">
         <div class="loading-card">
           <div class="loading-spinner">
@@ -147,41 +132,41 @@
       <!-- Result State -->
       <div id="resultState" class="result-state hidden"></div>
 
-      <!-- How to Use Card (Setelah loading) -->
+      <!-- How to Use Card -->
       <div class="card howto-card" id="howtoCard">
         <div class="howto-header">
           <div class="howto-icon">
             <i class="fas fa-question-circle"></i>
           </div>
-          <h3 id="howtoTitle">Cara Menggunakan</h3>
+          <h3 id="howtoTitle">How to Use</h3>
         </div>
         <div class="howto-steps">
           <div class="step-item">
             <div class="step-number">1</div>
             <div class="step-content">
               <i class="fab fa-youtube"></i>
-              <span id="step1Text">Salin URL video YouTube dari browser</span>
+              <span id="step1Text">Copy YouTube video URL from browser</span>
             </div>
           </div>
           <div class="step-item">
             <div class="step-number">2</div>
             <div class="step-content">
               <i class="fas fa-paste"></i>
-              <span id="step2Text">Tempel URL di kolom input di atas</span>
+              <span id="step2Text">Paste the URL in the input field above</span>
             </div>
           </div>
           <div class="step-item">
             <div class="step-number">3</div>
             <div class="step-content">
               <i class="fas fa-video"></i>
-              <span id="step3Text">Klik tombol Download Video atau Download Audio</span>
+              <span id="step3Text">Click "Download Video" or "Download Audio" button</span>
             </div>
           </div>
           <div class="step-item">
             <div class="step-number">4</div>
             <div class="step-content">
               <i class="fas fa-save"></i>
-              <span id="step4Text">Tunggu proses dan klik tombol download</span>
+              <span id="step4Text">Wait for processing and click download button</span>
             </div>
           </div>
         </div>
@@ -193,15 +178,14 @@
       <div class="modal-content">
         <div class="modal-header">
           <h2>
-            <i class="fas fa-gem"></i>
+            <i class="fas fa-heart"></i>
             Support Danuxy Studio
           </h2>
           <button class="modal-close" id="closeModal">&times;</button>
         </div>
         <div class="modal-body">
           <p>
-            <i class="fas fa-heart" style="color: #ff3366;"></i>
-            Your support keeps this service running and free!
+            Your support keeps this service running and free for everyone!
           </p>
           <a href="https://sociabuzz.com/nuxy_mc/tribe" 
              class="donation-sociabuzz-btn" 
@@ -226,13 +210,17 @@
         <span id="donateText">Support Us</span>
         <i class="fas fa-arrow-right"></i>
       </button>
+      
       <div class="footer-links">
-        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
-        <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
+        <a href="https://whatsapp.com/channel/0029Vb6RsCAEAKWDFTrHdu0L" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+        <a href="https://github.com/Danuxy-Studio" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <i class="fab fa-github"></i>
+        </a>
       </div>
-      <p class="copyright" id="copyright">© 2025 Danuxy Studio</p>
+      
+      <p class="copyright" id="copyright">© 2026 Danuxy Studio</p>
     </footer>
   </div>
 
