@@ -8,27 +8,51 @@ const rateLimit = require('express-rate-limit');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ============ SEO & SECURITY HEADERS ============
+// ============ OPTIMIZED SECURITY & SEO HEADERS ============
 app.use((req, res, next) => {
-  // Security headers
+  // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-api-key');
+  
+  // Security headers yang benar untuk Google Fonts
+  res.setHeader('Content-Security-Policy', 
+    "default-src 'self'; " +
+    "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com 'unsafe-eval'; " +
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
+    "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; " +
+    "img-src 'self' data: https: http: https://i.ytimg.com; " +
+    "connect-src 'self' https://api.danuxy.com; " +
+    "frame-src 'none'; " +
+    "object-src 'none'"
+  );
+  
+  // HSTS header dengan preload
+  res.setHeader('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
+  
+  // COOP header
+  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
+  
+  // X-Frame-Options
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  
+  // X-Content-Type-Options
   res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('X-Frame-Options', 'DENY');
+  
+  // Referrer-Policy
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   
-  // SEO headers
-  res.setHeader('X-Robots-Tag', 'index, follow');
+  // Permissions-Policy
+  res.setHeader('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
   
-  // Cache headers for static assets
-  if (req.url.includes('/assets/')) {
+  // Cache headers untuk asset statis
+  if (req.url.match(/\.(css|js|png|ico|jpg|jpeg|svg|woff2)$/)) {
     res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
-    res.setHeader('Content-Type', 'image/png');
   }
   
-  if (req.url.includes('/css/') || req.url.includes('/js/')) {
-    res.setHeader('Cache-Control', 'public, max-age=86400');
+  // HTML tidak di-cache terlalu lama
+  if (req.url === '/' || req.url === '/index.html') {
+    res.setHeader('Cache-Control', 'public, max-age=3600');
   }
   
   next();
@@ -37,40 +61,47 @@ app.use((req, res, next) => {
 app.use(cors());
 app.use(express.json());
 
-// Static files
+// ============ COMPRESSION FOR BETTER PERFORMANCE ============
+const compression = require('compression');
+app.use(compression({
+  level: 6,
+  threshold: 1024,
+  filter: (req, res) => {
+    if (req.headers['x-no-compression']) {
+      return false;
+    }
+    return compression.filter(req, res);
+  }
+}));
+
+// Static files dengan cache optimal
 app.use(express.static('public', {
+  maxAge: '1y',
+  etag: true,
+  lastModified: true,
   setHeaders: (res, filePath) => {
     if (filePath.endsWith('.png')) {
       res.setHeader('Content-Type', 'image/png');
-      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
     }
     if (filePath.endsWith('.css')) {
       res.setHeader('Content-Type', 'text/css');
-      res.setHeader('Cache-Control', 'public, max-age=86400');
     }
     if (filePath.endsWith('.js')) {
       res.setHeader('Content-Type', 'application/javascript');
-      res.setHeader('Cache-Control', 'public, max-age=86400');
     }
-    if (filePath.endsWith('.xml')) {
-      res.setHeader('Content-Type', 'application/xml');
-      res.setHeader('Cache-Control', 'public, max-age=3600');
-    }
-    if (filePath.endsWith('.txt')) {
-      res.setHeader('Content-Type', 'text/plain');
+    if (filePath.endsWith('.xml') || filePath.endsWith('.txt')) {
       res.setHeader('Cache-Control', 'public, max-age=3600');
     }
   }
 }));
 
-// Asset route
+// Asset route dengan cache
 app.get('/assets/:filename', (req, res) => {
   const filePath = path.join(__dirname, 'public', 'assets', req.params.filename);
   res.sendFile(filePath, {
     headers: {
       'Content-Type': 'image/png',
-      'Cache-Control': 'public, max-age=31536000, immutable',
-      'X-Robots-Tag': 'noindex'
+      'Cache-Control': 'public, max-age=31536000, immutable'
     }
   });
 });
@@ -266,5 +297,4 @@ app.listen(PORT, () => {
   console.log(`🚀 Danuxy Studio Downloader running on http://localhost:${PORT}`);
   console.log(`🔒 Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`📹 Using quality: 1080p for video downloads`);
-  console.log(`🔄 Proxy download enabled`);
 });
