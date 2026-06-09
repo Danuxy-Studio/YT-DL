@@ -4,200 +4,333 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   
-  <title>Danuxy Studio | YouTube Downloader - Download Video & Audio 1080p</title>
-  <meta name="description" content="Danuxy Studio - YouTube downloader gratis terbaik 2026. Download video YouTube kualitas 1080p, 720p, dan MP3 dengan cepat, aman, mudah. Tanpa iklan, tanpa registrasi.">
-  <meta name="keywords" content="Danuxy, Danuxy Studio, YouTube Downloader, download video YouTube, download mp3 YouTube, DanuZz">
+  <title>Danuxy Studio | YouTube Downloader 1080p - Download Video & Audio Gratis</title>
+  <meta name="description" content="Danuxy Studio - Download video YouTube dan audio MP3 gratis dengan kualitas 1080p terbaik. Cepat, aman, mudah, tanpa registrasi.">
+  <meta name="keywords" content="Danuxy Studio, Danuxy, YouTube Downloader, download video YouTube, download mp3 YouTube">
   <meta name="author" content="Danuxy Studio">
   <meta name="robots" content="index, follow">
-  <meta name="googlebot" content="index, follow">
-  <meta name="language" content="Indonesian">
   
   <link rel="canonical" href="https://ytdl.danuxy.com/">
-  
-  <!-- Open Graph -->
-  <meta property="og:title" content="Danuxy Studio - YouTube Downloader Terbaik">
-  <meta property="og:description" content="Download video & audio YouTube gratis dengan kualitas 1080p terbaik. Cepat, aman, mudah.">
-  <meta property="og:image" content="/assets/banner.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://ytdl.danuxy.com/">
-  <meta property="og:site_name" content="Danuxy Studio">
-  <meta property="og:locale" content="id_ID">
-  
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Danuxy Studio - YouTube Downloader">
-  <meta name="twitter:description" content="Download video & audio YouTube gratis. Kualitas 1080p terbaik.">
-  <meta name="twitter:image" content="/assets/banner.png">
-  
   <link rel="icon" type="image/png" href="/assets/logo.png">
   <link rel="apple-touch-icon" href="/assets/logo.png">
   
-  <!-- Preconnect & Preload -->
+  <!-- Open Graph -->
+  <meta property="og:title" content="Danuxy Studio - YouTube Downloader">
+  <meta property="og:description" content="Download video & audio YouTube gratis. Kualitas 1080p terbaik.">
+  <meta property="og:image" content="/assets/banner.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  
+  <!-- Preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" href="/css/style.css" as="style">
-  <link rel="preload" href="/js/main.js" as="script">
   
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="stylesheet" href="/css/style.css">
   
-  <!-- Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Danuxy Studio",
-    "url": "https://ytdl.danuxy.com",
-    "logo": "https://ytdl.danuxy.com/assets/logo.png",
-    "description": "Free YouTube video and audio downloader with best quality support",
-    "sameAs": ["https://github.com/Danuxy-Studio"],
-    "founder": {"@type": "Person", "name": "DanuZz"}
-  }
-  </script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      background: linear-gradient(145deg, #0a0a0f 0%, #0f0f1a 100%);
+      font-family: 'Inter', sans-serif;
+      color: #ffffff;
+      min-height: 100vh;
+    }
+    
+    .app {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+    
+    /* Header */
+    .header { text-align: center; margin-bottom: 2rem; }
+    .logo { display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+    .logo-icon { width: 52px; height: 52px; background: linear-gradient(135deg, #8b5cf6, #ec4899); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px -5px rgba(139,92,246,0.4); }
+    .logo-icon i { font-size: 1.6rem; color: white; }
+    .logo-text { font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, #c084fc, #ec4899); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .logo-text span { color: #a78bfa; background: none; }
+    .tagline { font-size: 0.75rem; color: #a1a1aa; letter-spacing: 0.5px; }
+    
+    /* Card */
+    .card {
+      background: rgba(18, 18, 26, 0.8);
+      backdrop-filter: blur(10px);
+      border-radius: 28px;
+      padding: 1.5rem;
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      margin-bottom: 1rem;
+      transition: all 0.3s ease;
+    }
+    .card:hover { border-color: rgba(139, 92, 246, 0.4); transform: translateY(-2px); }
+    
+    /* Input */
+    .input-wrapper { position: relative; margin-bottom: 1rem; }
+    .input-icon { position: absolute; left: 1.2rem; top: 50%; transform: translateY(-50%); color: #8b5cf6; font-size: 1rem; }
+    .url-input {
+      width: 100%;
+      padding: 1rem 3rem 1rem 3.2rem;
+      background: rgba(32, 32, 42, 0.9);
+      border: 1.5px solid #2a2a35;
+      border-radius: 60px;
+      color: #fff;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .url-input:focus { outline: none; border-color: #8b5cf6; box-shadow: 0 0 0 3px rgba(139,92,246,0.15); }
+    .url-input::placeholder { color: #6b7280; }
+    .clear-btn {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #6b7280;
+      cursor: pointer;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: none;
+      transition: all 0.2s;
+    }
+    .clear-btn:hover { background: #2a2a35; color: #fff; }
+    
+    /* Quality Badge */
+    .quality-wrap { display: flex; justify-content: center; margin-bottom: 1.25rem; }
+    .quality-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1.2rem;
+      background: rgba(139, 92, 246, 0.12);
+      border-radius: 60px;
+      font-size: 0.7rem;
+      color: #c084fc;
+      border: 1px solid rgba(139, 92, 246, 0.2);
+    }
+    .quality-badge i { color: #fbbf24; font-size: 0.7rem; }
+    
+    /* Buttons */
+    .button-group { display: flex; gap: 0.75rem; }
+    .btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 0.9rem;
+      border: none;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-video { background: linear-gradient(135deg, #8b5cf6, #6d28d9); color: #fff; box-shadow: 0 4px 15px rgba(139,92,246,0.3); }
+    .btn-audio { background: linear-gradient(135deg, #ec4899, #be185d); color: #fff; box-shadow: 0 4px 15px rgba(236,72,153,0.3); }
+    .btn:active { transform: scale(0.97); }
+    
+    /* Loading */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .loading-card {
+      background: #18181b;
+      border-radius: 32px;
+      padding: 2rem;
+      text-align: center;
+      width: 300px;
+      border: 1px solid #2a2a35;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+    }
+    .spinner { width: 60px; height: 60px; margin: 0 auto 1.5rem; border: 3px solid rgba(139,92,246,0.2); border-top-color: #8b5cf6; border-radius: 50%; animation: spin 0.8s linear infinite; }
+    .progress-track { background: #27272a; border-radius: 60px; height: 5px; margin: 1rem 0; overflow: hidden; }
+    .progress-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #8b5cf6, #ec4899); transition: width 0.3s; }
+    .steps { display: flex; justify-content: space-between; margin-top: 1.5rem; gap: 0.25rem; }
+    .step { flex: 1; font-size: 0.6rem; color: #71717a; text-align: center; opacity: 0.4; transition: all 0.2s; }
+    .step i { font-size: 0.75rem; display: block; margin-bottom: 0.25rem; }
+    .step.active { opacity: 1; color: #c084fc; }
+    .step.completed { opacity: 1; color: #10b981; }
+    
+    /* Result */
+    .result-card {
+      background: #18181b;
+      border-radius: 28px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      border: 1px solid #2a2a35;
+      animation: slideUp 0.4s ease;
+    }
+    .preview { display: flex; gap: 1rem; margin-bottom: 1rem; }
+    .thumb { position: relative; width: 120px; height: 68px; flex-shrink: 0; background: #27272a; border-radius: 12px; overflow: hidden; }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .duration { position: absolute; bottom: 4px; right: 4px; background: rgba(0,0,0,0.75); padding: 2px 6px; border-radius: 4px; font-size: 0.55rem; font-weight: 600; }
+    .info { flex: 1; }
+    .title { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .meta { display: flex; flex-wrap: wrap; gap: 0.5rem; font-size: 0.6rem; color: #a1a1aa; }
+    .quality-chip { background: rgba(139,92,246,0.15); padding: 0.2rem 0.5rem; border-radius: 20px; color: #c084fc; }
+    .file-info { background: #27272a; border-radius: 12px; padding: 0.6rem 0.8rem; margin: 0.75rem 0; display: flex; justify-content: space-between; font-size: 0.65rem; font-family: monospace; color: #c084fc; }
+    .download-link { display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; padding: 0.8rem; background: linear-gradient(135deg, #10b981, #059669); border-radius: 60px; color: #fff; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: 0.2s; }
+    .download-link:hover { transform: translateY(-2px); filter: brightness(1.05); }
+    .error-msg { background: rgba(239,68,68,0.1); border: 1px solid #ef4444; border-radius: 16px; padding: 1rem; display: flex; align-items: center; gap: 0.75rem; color: #fca5a5; margin-bottom: 1rem; }
+    
+    /* How To */
+    .howto-card { background: linear-gradient(135deg, rgba(139,92,246,0.04), rgba(236,72,153,0.02)); border-color: rgba(139,92,246,0.15); }
+    .howto-title { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; padding-bottom: 0.6rem; border-bottom: 1px solid #2a2a35; }
+    .howto-title i { color: #8b5cf6; font-size: 1rem; }
+    .howto-title h3 { font-size: 0.9rem; font-weight: 600; }
+    .howto-list { display: flex; flex-direction: column; gap: 0.8rem; }
+    .howto-item { display: flex; align-items: center; gap: 0.8rem; }
+    .howto-num { width: 28px; height: 28px; background: linear-gradient(135deg, #8b5cf6, #ec4899); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; flex-shrink: 0; }
+    .howto-text { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: #a1a1aa; flex: 1; }
+    .howto-text i { color: #c084fc; width: 18px; }
+    
+    /* Features */
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-bottom: 1rem; }
+    .feature { background: #1c1c26; border-radius: 14px; padding: 0.6rem; text-align: center; transition: 0.2s; }
+    .feature:hover { background: #27272a; transform: translateY(-2px); }
+    .feature i { font-size: 1rem; color: #c084fc; margin-bottom: 0.3rem; display: block; }
+    .feature span { font-size: 0.6rem; color: #a1a1aa; }
+    
+    /* Footer */
+    .footer { text-align: center; margin-top: 1rem; }
+    .donate-btn { background: rgba(255,51,102,0.1); border: 1.5px solid rgba(255,51,102,0.3); padding: 0.6rem 1.8rem; border-radius: 60px; display: inline-flex; align-items: center; gap: 0.6rem; color: #fff; font-size: 0.8rem; font-weight: 500; cursor: pointer; transition: 0.2s; margin-bottom: 1rem; }
+    .donate-btn:hover { border-color: #ff3366; transform: translateY(-2px); background: rgba(255,51,102,0.15); }
+    .donate-btn i:first-child { color: #ff3366; animation: heartbeat 1.5s infinite; }
+    .social { display: flex; justify-content: center; gap: 1rem; margin-bottom: 0.75rem; }
+    .social a { width: 38px; height: 38px; background: #1c1c26; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #a1a1aa; font-size: 1rem; transition: 0.2s; text-decoration: none; }
+    .social a:hover { transform: translateY(-3px); }
+    .social a:first-child:hover { color: #25D366; background: rgba(37,211,102,0.15); }
+    .social a:last-child:hover { color: #fff; background: rgba(255,255,255,0.1); }
+    .copyright { font-size: 0.55rem; color: #71717a; }
+    .copyright i { color: #ff3366; }
+    
+    /* Modal */
+    .modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; z-index: 1001; }
+    .modal-box { background: #18181b; border-radius: 32px; max-width: 360px; width: 90%; padding: 1.5rem; text-align: center; border: 1px solid rgba(255,51,102,0.3); }
+    .modal-close { float: right; background: none; border: none; color: #a1a1aa; font-size: 1.2rem; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; transition: 0.2s; }
+    .modal-close:hover { background: #27272a; color: #fff; }
+    .modal h3 { margin: 1rem 0 1rem; font-size: 1rem; }
+    .modal p { font-size: 0.8rem; color: #a1a1aa; margin-bottom: 1.5rem; }
+    .modal-donate { display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #ff3366, #ff6b3d); border-radius: 60px; color: #fff; font-weight: 600; font-size: 0.85rem; text-decoration: none; transition: 0.2s; }
+    .modal-donate:hover { transform: translateY(-2px); filter: brightness(1.05); }
+    
+    .hidden { display: none; }
+    
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes heartbeat { 0%,100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+    
+    @media (max-width: 480px) {
+      .app { padding: 1rem; }
+      .card { padding: 1.25rem; }
+      .button-group { flex-direction: column; gap: 0.6rem; }
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .thumb { width: 100px; height: 56px; }
+    }
+  </style>
 </head>
 <body>
-  <div class="app">
-    <!-- Header -->
-    <header class="header">
-      <div class="logo">
-        <div class="logo-icon"><i class="fab fa-youtube"></i></div>
-        <h1 class="logo-text">Danuxy<span>Studio</span></h1>
-      </div>
-      <p class="tagline" id="taglineText">YouTube Downloader • Kualitas Terbaik 1080p</p>
-    </header>
-
-    <!-- Main Download Card -->
-    <div class="download-card">
-      <div class="input-group">
-        <i class="fas fa-link input-icon"></i>
-        <input type="text" id="youtubeUrl" class="url-input" placeholder="Tempel URL YouTube di sini...">
-        <button id="clearBtn" class="clear-btn"><i class="fas fa-times"></i></button>
-      </div>
-      
-      <div class="quality-badge">
-        <i class="fas fa-crown"></i>
-        <span id="qualityText">Kualitas 1080p • Turun Otomatis</span>
-      </div>
-      
-      <div class="button-group">
-        <button id="btnMp4" class="btn btn-video">
-          <i class="fas fa-download"></i>
-          <span id="btnVideoText">Download Video</span>
-          <i class="fas fa-video"></i>
-        </button>
-        <button id="btnMp3" class="btn btn-audio">
-          <i class="fas fa-download"></i>
-          <span id="btnAudioText">Download Audio</span>
-          <i class="fas fa-music"></i>
-        </button>
-      </div>
+<div class="app">
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">
+      <div class="logo-icon"><i class="fab fa-youtube"></i></div>
+      <div class="logo-text">Danuxy<span>Studio</span></div>
     </div>
-
-    <!-- Loading -->
-    <div id="loading" class="loading hidden">
-      <div class="loading-card">
-        <div class="spinner"></div>
-        <div class="progress-wrap">
-          <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-          <span class="progress-text" id="progressPercent">0%</span>
-        </div>
-        <p id="loadingMsg">Memproses permintaan Anda...</p>
-        <div class="steps" id="stepsContainer">
-          <span class="step active" id="step1"><i class="fas fa-link"></i> <span>Verifikasi</span></span>
-          <span class="step" id="step2"><i class="fas fa-server"></i> <span>Ambil Data</span></span>
-          <span class="step" id="step3"><i class="fas fa-magic"></i> <span>Memproses</span></span>
-          <span class="step" id="step4"><i class="fas fa-check"></i> <span>Siap</span></span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Result -->
-    <div id="result" class="result hidden"></div>
-
-    <!-- How to Use - Cara Menggunakan -->
-    <div class="howto-card">
-      <div class="howto-title">
-        <i class="fas fa-question-circle"></i>
-        <h3 id="howtoTitle">Cara Menggunakan Danuxy Studio</h3>
-      </div>
-      <div class="howto-list">
-        <div class="howto-item">
-          <div class="howto-num">1</div>
-          <div class="howto-desc">
-            <i class="fab fa-youtube"></i>
-            <span id="step1Text">Salin URL video YouTube dari browser</span>
-          </div>
-        </div>
-        <div class="howto-item">
-          <div class="howto-num">2</div>
-          <div class="howto-desc">
-            <i class="fas fa-paste"></i>
-            <span id="step2Text">Tempel URL di kolom input di atas</span>
-          </div>
-        </div>
-        <div class="howto-item">
-          <div class="howto-num">3</div>
-          <div class="howto-desc">
-            <i class="fas fa-video"></i>
-            <span id="step3Text">Klik tombol "Download Video" atau "Download Audio"</span>
-          </div>
-        </div>
-        <div class="howto-item">
-          <div class="howto-num">4</div>
-          <div class="howto-desc">
-            <i class="fas fa-save"></i>
-            <span id="step4Text">Tunggu proses dan klik tombol download untuk menyimpan</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Features -->
-    <div class="features-card">
-      <div class="features-grid">
-        <div class="feature"><i class="fas fa-video"></i><span>1080p HD Video</span></div>
-        <div class="feature"><i class="fas fa-music"></i><span>Audio MP3</span></div>
-        <div class="feature"><i class="fas fa-bolt"></i><span>Download Cepat</span></div>
-        <div class="feature"><i class="fas fa-shield-alt"></i><span>100% Aman</span></div>
-        <div class="feature"><i class="fas fa-infinity"></i><span>Tanpa Batas</span></div>
-        <div class="feature"><i class="fas fa-user-check"></i><span>Tanpa Daftar</span></div>
-      </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="footer">
-      <button id="donateBtn" class="donate-btn">
-        <i class="fas fa-heart"></i>
-        <span id="donateText">Dukung Danuxy Studio</span>
-        <i class="fas fa-arrow-right"></i>
-      </button>
-      <div class="social">
-        <a href="https://whatsapp.com/channel/0029Vb6RsCAEAKWDFTrHdu0L" target="_blank" class="social-icon whatsapp"><i class="fab fa-whatsapp"></i></a>
-        <a href="https://github.com/Danuxy-Studio" target="_blank" class="social-icon github"><i class="fab fa-github"></i></a>
-      </div>
-      <p class="copyright" id="copyrightText">© 2026 Danuxy Studio • Dibuat dengan <i class="fas fa-heart"></i></p>
-    </footer>
+    <div class="tagline">YouTube Downloader • Kualitas 1080p Terbaik</div>
   </div>
 
-  <!-- Donation Modal -->
-  <div id="donationModal" class="modal hidden">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3><i class="fas fa-heart" style="color:#ff3366"></i> <span id="modalTitle">Dukung Danuxy Studio</span></h3>
-        <button id="closeModal" class="modal-close">&times;</button>
-      </div>
-      <div class="modal-body">
-        <p id="modalDesc">Dukungan Anda membuat layanan ini tetap berjalan dan gratis untuk semua orang!</p>
-        <a href="https://sociabuzz.com/nuxy_mc/tribe" target="_blank" class="modal-donate-btn" id="modalDonateBtn">
-          <i class="fas fa-heart"></i> Donasi via Sociabuzz <i class="fas fa-external-link-alt"></i>
-        </a>
+  <!-- Download Card -->
+  <div class="card">
+    <div class="input-wrapper">
+      <i class="fab fa-youtube input-icon"></i>
+      <input type="text" id="urlInput" class="url-input" placeholder="Tempel URL YouTube di sini...">
+      <button class="clear-btn" id="clearBtn"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="quality-wrap">
+      <div class="quality-badge"><i class="fas fa-crown"></i> Kualitas 1080p • Turun Otomatis</div>
+    </div>
+    <div class="button-group">
+      <button class="btn btn-video" id="btnVideo"><i class="fas fa-download"></i> Download Video <i class="fas fa-video"></i></button>
+      <button class="btn btn-audio" id="btnAudio"><i class="fas fa-download"></i> Download Audio <i class="fas fa-music"></i></button>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div id="loading" class="loading-overlay hidden">
+    <div class="loading-card">
+      <div class="spinner"></div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <p id="loadingText" style="font-size:0.8rem; color:#a1a1aa">Memproses permintaan Anda...</p>
+      <div class="steps">
+        <div class="step active" id="step1"><i class="fas fa-link"></i>Verifikasi</div>
+        <div class="step" id="step2"><i class="fas fa-server"></i>Ambil Data</div>
+        <div class="step" id="step3"><i class="fas fa-magic"></i>Memproses</div>
+        <div class="step" id="step4"><i class="fas fa-check"></i>Siap</div>
       </div>
     </div>
   </div>
 
-  <script src="/js/main.js" defer></script>
+  <!-- Result -->
+  <div id="result"></div>
+
+  <!-- How to Use -->
+  <div class="card howto-card">
+    <div class="howto-title"><i class="fas fa-question-circle"></i><h3>Cara Menggunakan</h3></div>
+    <div class="howto-list">
+      <div class="howto-item"><div class="howto-num">1</div><div class="howto-text"><i class="fab fa-youtube"></i> Salin URL video YouTube dari browser</div></div>
+      <div class="howto-item"><div class="howto-num">2</div><div class="howto-text"><i class="fas fa-paste"></i> Tempel URL di kolom input di atas</div></div>
+      <div class="howto-item"><div class="howto-num">3</div><div class="howto-text"><i class="fas fa-video"></i> Klik tombol "Download Video" atau "Download Audio"</div></div>
+      <div class="howto-item"><div class="howto-num">4</div><div class="howto-text"><i class="fas fa-save"></i> Tunggu proses dan klik tombol download</div></div>
+    </div>
+  </div>
+
+  <!-- Features -->
+  <div class="features-grid">
+    <div class="feature"><i class="fas fa-video"></i><span>1080p HD</span></div>
+    <div class="feature"><i class="fas fa-music"></i><span>MP3 Audio</span></div>
+    <div class="feature"><i class="fas fa-bolt"></i><span>Cepat</span></div>
+    <div class="feature"><i class="fas fa-shield-alt"></i><span>Aman</span></div>
+    <div class="feature"><i class="fas fa-infinity"></i><span>Tanpa Batas</span></div>
+    <div class="feature"><i class="fas fa-user-check"></i><span>Tanpa Daftar</span></div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <button class="donate-btn" id="donateBtn"><i class="fas fa-heart"></i> Dukung Danuxy Studio <i class="fas fa-arrow-right"></i></button>
+    <div class="social">
+      <a href="https://whatsapp.com/channel/0029Vb6RsCAEAKWDFTrHdu0L" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      <a href="https://github.com/Danuxy-Studio" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+    </div>
+    <div class="copyright">© 2026 Danuxy Studio • Dibuat dengan <i class="fas fa-heart"></i></div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="modal" class="modal hidden">
+  <div class="modal-box">
+    <button class="modal-close" id="closeModal">&times;</button>
+    <h3><i class="fas fa-heart" style="color:#ff3366"></i> Dukung Danuxy Studio</h3>
+    <p>Dukungan Anda membuat layanan ini tetap berjalan dan gratis untuk semua orang!</p>
+    <a href="https://sociabuzz.com/nuxy_mc/tribe" target="_blank" class="modal-donate"><i class="fas fa-heart"></i> Donasi via Sociabuzz <i class="fas fa-external-link-alt"></i></a>
+  </div>
+</div>
+
+<script src="/js/main.js" defer></script>
 </body>
 </html>
