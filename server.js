@@ -10,26 +10,19 @@ const PORT = process.env.PORT || 3000;
 
 // ============ SECURITY HEADERS ============
 app.use((req, res, next) => {
-  if (process.env.NODE_ENV === 'production') {
-    res.setHeader(
-      'Content-Security-Policy',
-      "default-src 'self'; " +
-      "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; " +
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
-      "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; " +
-      "img-src 'self' data: https: http: https://i.ytimg.com; " +
-      "connect-src 'self' https://api.danuxy.com; " +
-      "frame-src 'none'; " +
-      "object-src 'none'"
-    );
-  }
-  
+  // Header khusus untuk Open Graph
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-api-key');
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'DENY');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  
+  // Cache untuk asset gambar
+  if (req.url.includes('/assets/')) {
+    res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    res.setHeader('Content-Type', 'image/png');
+  }
   
   next();
 });
@@ -43,6 +36,8 @@ app.use(express.static('public', {
     if (filePath.endsWith('.png')) {
       res.setHeader('Content-Type', 'image/png');
       res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+      // Header penting untuk Open Graph
+      res.setHeader('Access-Control-Allow-Origin', '*');
     }
     if (filePath.endsWith('.css')) {
       res.setHeader('Content-Type', 'text/css');
@@ -55,19 +50,21 @@ app.use(express.static('public', {
   }
 }));
 
-// Asset route
+// Asset route dengan header khusus
 app.get('/assets/:filename', (req, res) => {
   const filename = req.params.filename;
   const filePath = path.join(__dirname, 'public', 'assets', filename);
+  
   res.sendFile(filePath, {
     headers: {
       'Content-Type': 'image/png',
-      'Cache-Control': 'public, max-age=31536000, immutable'
+      'Cache-Control': 'public, max-age=31536000, immutable',
+      'Access-Control-Allow-Origin': '*'
     }
   });
 });
 
-// ============ RATE LIMITING ============
+// Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
@@ -75,7 +72,7 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
-// ============ API ENDPOINTS ============
+// API endpoints
 app.post('/api/youtube/ytmp4', async (req, res) => {
   try {
     const { url } = req.body;
@@ -181,7 +178,7 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
-// ============ SEO ROUTES ============
+// SEO Routes
 app.get('/robots.txt', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'robots.txt'));
 });
@@ -190,14 +187,12 @@ app.get('/sitemap.xml', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'sitemap.xml'));
 });
 
-// ============ CATCH ALL ============
+// Catch all
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// ============ START SERVER ============
 app.listen(PORT, () => {
   console.log(`🚀 Danuxy Studio Downloader running on http://localhost:${PORT}`);
   console.log(`🔒 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`📹 Using quality: 1080p for video downloads`);
 });
