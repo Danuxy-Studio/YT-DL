@@ -19,9 +19,7 @@
     if (!urlInput || !btnVideo || !btnAudio) return;
     
     if (clearBtn) {
-      // Inisialisasi awal saat load halaman
       clearBtn.style.display = urlInput.value ? 'flex' : 'none';
-      
       urlInput.addEventListener('input', () => {
         clearBtn.style.display = urlInput.value ? 'flex' : 'none';
       });
@@ -63,7 +61,6 @@
   function startProgress() {
     let progress = 0;
     if (progressInterval) clearInterval(progressInterval);
-    
     progressInterval = setInterval(() => {
       if (progress < 95) {
         progress += Math.random() * 12;
