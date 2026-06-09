@@ -46,6 +46,24 @@ app.use((req, res, next) => {
   next();
 });
 
+// Kompresi Brotli (lebih baik dari Gzip)
+app.use(compression({
+  level: 9,
+  threshold: 0,
+  filter: (req, res) => {
+    if (req.headers['x-no-compression']) return false;
+    return compression.filter(req, res);
+  }
+}));
+
+// Cache header untuk asset statis
+app.use((req, res, next) => {
+  if (req.url.match(/\.(css|js|png|ico|woff2)$/)) {
+    res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+  }
+  next();
+});
+
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
