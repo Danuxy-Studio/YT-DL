@@ -19,6 +19,9 @@
     if (!urlInput || !btnVideo || !btnAudio) return;
     
     if (clearBtn) {
+      // Inisialisasi awal saat load halaman
+      clearBtn.style.display = urlInput.value ? 'flex' : 'none';
+      
       urlInput.addEventListener('input', () => {
         clearBtn.style.display = urlInput.value ? 'flex' : 'none';
       });
