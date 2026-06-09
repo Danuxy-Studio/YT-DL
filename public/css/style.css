@@ -6,9 +6,12 @@
 
 body {
   background: #0a0a0f;
-  font-family: 'Inter', sans-serif;
+  /* Menggunakan system-ui sebagai fallback sebelum font web terdownload */
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   color: #fff;
   min-height: 100vh;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 .container {
@@ -70,14 +73,14 @@ body {
   padding: 1.5rem;
   border: 1px solid rgba(139,92,246,0.2);
   margin-bottom: 1rem;
-  transition: all 0.3s ease;
+  transition: border-color 0.3s ease;
 }
 
 .card:hover {
   border-color: rgba(139,92,246,0.4);
 }
 
-/* Input */
+/* Input Group & Fix CLS */
 .input-group {
   position: relative;
   margin-bottom: 1rem;
@@ -85,7 +88,7 @@ body {
 
 .input-icon {
   position: absolute;
-  left: 1rem;
+  left: 1.2rem;
   top: 50%;
   transform: translateY(-50%);
   color: #8b5cf6;
@@ -95,13 +98,13 @@ body {
 
 .url-input {
   width: 100%;
-  padding: 0.9rem 2.5rem 0.9rem 2.8rem;
+  padding: 1rem 3rem 1rem 3rem; /* Memberikan ruang tetap untuk ikon silang */
   background: #1c1c26;
   border: 1.5px solid #2a2a35;
   border-radius: 60px;
   color: #fff;
-  font-size: 0.85rem;
-  transition: all 0.2s;
+  font-size: 0.9rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .url-input:focus {
@@ -112,20 +115,20 @@ body {
 
 .clear-btn {
   position: absolute;
-  right: 0.75rem;
+  right: 1rem;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
   color: #6b7280;
   cursor: pointer;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   display: none;
   align-items: center;
   justify-content: center;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
 }
 
 .clear-btn:hover {
@@ -144,14 +147,14 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.35rem 1rem;
+  padding: 0.4rem 1.2rem;
   background: rgba(139,92,246,0.1);
   border-radius: 60px;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   color: #c084fc;
 }
 
-/* Buttons */
+/* Buttons (Optimasi Touch Target Mobile) */
 .button-group {
   display: flex;
   gap: 0.75rem;
@@ -159,34 +162,18 @@ body {
 
 .btn {
   flex: 1;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 0.85rem;
+  gap: 0.6rem;
+  padding: 1rem; /* Ukuran pas untuk ketukan jari di mobile */
   border: none;
   border-radius: 60px;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   cursor: pointer;
-  transition: all 0.2s;
-  position: relative;
-  overflow: hidden;
-}
-
-.btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-  transition: left 0.4s;
-}
-
-.btn:hover::before {
-  left: 100%;
+  transition: transform 0.2s, filter 0.2s;
+  will-change: transform;
 }
 
 .btn-video {
@@ -203,11 +190,11 @@ body {
 
 .btn:hover {
   transform: translateY(-2px);
-  filter: brightness(1.05);
+  filter: brightness(1.1);
 }
 
 .btn:active {
-  transform: scale(0.97);
+  transform: scale(0.98);
 }
 
 /* Loading */
@@ -228,6 +215,7 @@ body {
   border-top-color: #8b5cf6;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
+  aspect-ratio: 1 / 1; /* Mencegah layout shift */
 }
 
 .progress-track {
@@ -242,38 +230,39 @@ body {
   width: 0%;
   height: 100%;
   background: linear-gradient(90deg, #8b5cf6, #ec4899);
-  transition: width 0.3s;
+  transition: width 0.3s ease;
 }
 
 .loading-text {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: #a1a1aa;
   margin-top: 0.5rem;
 }
 
-/* Result */
+/* Result Card */
 .result-card {
   background: #13131a;
   border-radius: 24px;
-  padding: 1rem;
+  padding: 1.25rem;
   border: 1px solid #1f1f2a;
   margin-bottom: 1rem;
 }
 
 .result-preview {
   display: flex;
-  gap: 12px;
+  gap: 14px;
   margin-bottom: 12px;
 }
 
 .result-thumb {
   position: relative;
-  width: 100px;
-  height: 56px;
+  width: 110px;
+  height: 62px;
   background: #1c1c26;
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
   flex-shrink: 0;
+  aspect-ratio: 16 / 9;
 }
 
 .result-thumb img {
@@ -286,10 +275,11 @@ body {
   position: absolute;
   bottom: 4px;
   right: 4px;
-  background: rgba(0,0,0,0.75);
-  padding: 2px 5px;
+  background: rgba(0,0,0,0.8);
+  padding: 2px 6px;
   border-radius: 4px;
-  font-size: 9px;
+  font-size: 10px;
+  font-weight: 600;
 }
 
 .result-info {
@@ -297,9 +287,9 @@ body {
 }
 
 .result-title {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -311,7 +301,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   color: #a1a1aa;
   align-items: center;
 }
@@ -321,16 +311,17 @@ body {
   padding: 2px 8px;
   border-radius: 20px;
   color: #c084fc;
+  font-weight: 500;
 }
 
 .file-info {
   background: #1c1c26;
-  border-radius: 10px;
-  padding: 8px 12px;
-  margin: 10px 0;
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin: 12px 0;
   display: flex;
   justify-content: space-between;
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   font-family: monospace;
   color: #c084fc;
 }
@@ -339,26 +330,26 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 8px;
   width: 100%;
-  padding: 10px;
+  padding: 1rem;
   background: linear-gradient(135deg, #10b981, #059669);
   border-radius: 60px;
   color: #fff;
   font-weight: 600;
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   text-decoration: none;
-  transition: all 0.2s;
+  transition: transform 0.2s, filter 0.2s;
 }
 
 .download-link:hover {
   transform: translateY(-2px);
-  filter: brightness(1.05);
+  filter: brightness(1.1);
 }
 
 .secure-note {
-  margin-top: 8px;
-  font-size: 0.55rem;
+  margin-top: 10px;
+  font-size: 0.65rem;
   text-align: center;
   color: #6b7280;
 }
@@ -367,12 +358,12 @@ body {
   background: rgba(239,68,68,0.1);
   border: 1px solid #ef4444;
   border-radius: 16px;
-  padding: 12px;
+  padding: 14px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   color: #fca5a5;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   margin-bottom: 1rem;
 }
 
@@ -391,12 +382,12 @@ body {
 }
 
 .howto-header i {
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: #8b5cf6;
 }
 
 .howto-header h3 {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 600;
 }
 
@@ -420,13 +411,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 700;
   flex-shrink: 0;
 }
 
 .howto-text {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: #a1a1aa;
   display: flex;
   align-items: center;
@@ -437,16 +428,16 @@ body {
 .features-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-bottom: 1rem;
+  gap: 10px;
+  margin-bottom: 1.5rem;
 }
 
 .feature {
   background: #1c1c26;
-  border-radius: 12px;
-  padding: 10px;
+  border-radius: 14px;
+  padding: 12px 8px;
   text-align: center;
-  transition: all 0.2s;
+  transition: transform 0.2s, background-color 0.2s;
 }
 
 .feature:hover {
@@ -455,43 +446,42 @@ body {
 }
 
 .feature i {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   margin-bottom: 6px;
   display: block;
   color: #c084fc;
 }
 
 .feature span {
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   color: #a1a1aa;
 }
 
-/* Footer */
+/* Footer & Fix Touch Target Google */
 .footer {
   text-align: center;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
 }
 
 .donate-btn {
   background: rgba(255,51,102,0.1);
   border: 1.5px solid rgba(255,51,102,0.3);
-  padding: 8px 24px;
+  padding: 10px 28px;
   border-radius: 60px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
   color: #fff;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
-  margin-bottom: 1rem;
+  transition: border-color 0.2s, transform 0.2s;
+  margin-bottom: 1.5rem;
 }
 
 .donate-btn:hover {
   border-color: #ff3366;
   transform: translateY(-2px);
-  background: rgba(255,51,102,0.15);
 }
 
 .donate-btn i:first-child {
@@ -502,21 +492,21 @@ body {
 .social-links {
   display: flex;
   justify-content: center;
-  gap: 1rem;
-  margin-bottom: 0.75rem;
+  gap: 1.25rem;
+  margin-bottom: 1rem;
 }
 
 .social-links a {
-  width: 34px;
-  height: 34px;
+  width: 48px;  /* Sesuai spesifikasi minimal Google lighthouse mobile */
+  height: 48px; /* Sesuai spesifikasi minimal Google lighthouse mobile */
   background: #1c1c26;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #a1a1aa;
-  font-size: 1rem;
-  transition: all 0.2s;
+  font-size: 1.2rem;
+  transition: transform 0.2s, color 0.2s, background 0.2s;
   text-decoration: none;
 }
 
@@ -535,7 +525,7 @@ body {
 }
 
 .copyright {
-  font-size: 0.55rem;
+  font-size: 0.65rem;
   color: #6b7280;
 }
 
@@ -557,9 +547,9 @@ body {
 .modal-content {
   background: #13131a;
   border-radius: 24px;
-  max-width: 320px;
+  max-width: 340px;
   width: 90%;
-  padding: 20px;
+  padding: 24px;
   text-align: center;
   border: 1px solid rgba(255,51,102,0.3);
 }
@@ -569,10 +559,10 @@ body {
   background: none;
   border: none;
   color: #a1a1aa;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   cursor: pointer;
-  width: 28px;
-  height: 28px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
 }
 
@@ -583,7 +573,7 @@ body {
 
 .modal h3 {
   margin: 16px 0 10px;
-  font-size: 1rem;
+  font-size: 1.1rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -591,26 +581,26 @@ body {
 }
 
 .modal p {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   color: #a1a1aa;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .modal-btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 10px 20px;
+  padding: 12px 24px;
   background: linear-gradient(135deg, #ff3366, #ff6b3d);
   border-radius: 60px;
   color: #fff;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   font-weight: 600;
   text-decoration: none;
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 @keyframes spin {
@@ -622,10 +612,12 @@ body {
   50% { transform: scale(1.1); }
 }
 
+/* Media Queries Mobile */
 @media (max-width: 480px) {
   .container { padding: 1rem; }
-  .card { padding: 1rem; }
-  .button-group { flex-direction: column; gap: 0.6rem; }
-  .features-grid { grid-template-columns: repeat(2, 1fr); }
-  .result-thumb { width: 80px; height: 45px; }
+  .card { padding: 1.25rem 1rem; }
+  .button-group { flex-direction: column; gap: 0.75rem; }
+  .features-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .result-preview { gap: 10px; }
+  .result-thumb { width: 90px; height: 50px; }
 }

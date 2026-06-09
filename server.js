@@ -3,6 +3,7 @@ const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
 const path = require('path');
+const compression = require('compression');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -20,6 +21,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(compression());
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
