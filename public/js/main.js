@@ -1,43 +1,30 @@
-// ============ OPTIMASI PERFORMANCE MOBILE ============
-// 1. Hindari blocking thread utama dengan defer & requestIdleCallback
-// 2. Lazy load untuk event handler yang tidak kritis
-// 3. Efficient DOM query caching
-// 4. Minimal reflow/repaint
-
+// ============ PERFORMANCE OPTIMIZED ============
 (function() {
   'use strict';
   
-  // Cache DOM elements
-  let urlInput, clearBtn, btnVideo, btnAudio, loading, resultDiv, progressFill, donateBtn, modal, closeModal;
+  let urlInput, clearBtn, btnVideo, btnAudio, loadingInline, resultDiv, progressFill;
   let progressInterval = null;
   let isProcessing = false;
   
-  // API Base URL
   const API_BASE = '/api/youtube';
   
-  // Optimasi: Tunggu DOMContentLoaded baru inisialisasi
   document.addEventListener('DOMContentLoaded', () => {
-    // Inisialisasi elemen setelah DOM siap
+    // Cache DOM elements
     urlInput = document.getElementById('urlInput');
     clearBtn = document.getElementById('clearBtn');
     btnVideo = document.getElementById('btnVideo');
     btnAudio = document.getElementById('btnAudio');
-    loading = document.getElementById('loading');
+    loadingInline = document.getElementById('loadingInline');
     resultDiv = document.getElementById('result');
     progressFill = document.getElementById('progressFill');
-    donateBtn = document.getElementById('donateBtn');
-    modal = document.getElementById('modal');
-    closeModal = document.getElementById('closeModal');
     
     if (!urlInput || !btnVideo || !btnAudio) return;
     
-    // Setup event listeners (hanya sekali)
     setupEventListeners();
     setupDonationModal();
   });
   
   function setupEventListeners() {
-    // Clear button dengan throttling
     if (clearBtn) {
       urlInput.addEventListener('input', () => {
         clearBtn.style.display = urlInput.value ? 'flex' : 'none';
@@ -49,15 +36,18 @@
       });
     }
     
-    // Gunakan passive event untuk scroll performance
-    btnVideo.addEventListener('click', handleVideo, { passive: false });
-    btnAudio.addEventListener('click', handleAudio, { passive: false });
+    btnVideo.addEventListener('click', handleVideo);
+    btnAudio.addEventListener('click', handleAudio);
     urlInput.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') handleVideo();
     });
   }
   
   function setupDonationModal() {
+    const donateBtn = document.getElementById('donateBtn');
+    const modal = document.getElementById('modal');
+    const closeModal = document.getElementById('closeModal');
+    
     if (donateBtn && modal && closeModal) {
       donateBtn.addEventListener('click', () => {
         modal.classList.remove('hidden');
@@ -76,12 +66,10 @@
     }
   }
   
-  // Progress simulation dengan requestAnimationFrame untuk smoothness
   function startProgress() {
     let progress = 0;
     if (progressInterval) clearInterval(progressInterval);
     
-    // Reset steps
     for (let i = 1; i <= 4; i++) {
       const step = document.getElementById(`step${i}`);
       if (step) {
@@ -128,17 +116,14 @@
   
   function showLoading(show) {
     if (show) {
-      loading.classList.remove('hidden');
+      loadingInline.classList.remove('hidden');
       resultDiv.classList.add('hidden');
       startProgress();
-      document.body.style.overflow = 'hidden';
     } else {
-      loading.classList.add('hidden');
-      document.body.style.overflow = '';
+      loadingInline.classList.add('hidden');
     }
   }
   
-  // Escape HTML untuk security
   function escapeHtml(str) {
     if (!str) return '';
     return String(str).replace(/[&<>]/g, (m) => {
@@ -179,7 +164,6 @@
     return data.data;
   }
   
-  // Optimasi render result - gunakan DocumentFragment untuk mengurangi reflow
   function renderResult(data, type) {
     const isMp4 = type === 'mp4';
     const vi = data.video_info || {};
@@ -196,7 +180,6 @@
     const filename = dl.filename || `download.${isMp4 ? 'mp4' : 'mp3'}`;
     const downloadText = isMp4 ? 'Download Video' : 'Download Audio';
     
-    // Gunakan string builder untuk performa lebih baik
     const html = `
       <div class="result-card">
         <div class="preview">
@@ -217,8 +200,8 @@
           <span><i class="fas fa-file"></i> ${escapeHtml(filename)}</span>
           <span>${escapeHtml(size)}</span>
         </div>
-        <a href="${dlUrl}" class="download-link" download target="_blank" rel="noopener noreferrer"><i class="fas fa-download"></i> ${downloadText}</a>
-        <div style="margin-top: 12px; font-size: 0.6rem; text-align: center; color: #71717a;">
+        <a href="${dlUrl}" class="download-link" download target="_blank"><i class="fas fa-download"></i> ${downloadText}</a>
+        <div style="margin-top: 12px; font-size: 10px; text-align: center; color: #71717a;">
           <i class="fas fa-shield-alt"></i> Download aman dari Danuxy Studio
         </div>
       </div>
@@ -226,10 +209,7 @@
     
     resultDiv.innerHTML = html;
     resultDiv.classList.remove('hidden');
-    // Smooth scroll dengan requestAnimationFrame
-    requestAnimationFrame(() => {
-      resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    });
+    resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
   
   function displayError(msg) {
@@ -237,7 +217,6 @@
     resultDiv.classList.remove('hidden');
   }
   
-  // Optimasi: Gunakan async handler dengan proper cleanup
   async function handleVideo() {
     if (isProcessing) return;
     isProcessing = true;
